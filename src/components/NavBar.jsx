@@ -1,7 +1,6 @@
-import userEvent from "@testing-library/user-event";
 import React, { useEffect } from "react";
 import $ from "jquery";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 const NavBar = ({ currentTheme }) => {
   useEffect(() => {
     let lightSwitcher = $("input[type='checkbox']#checkbox");
@@ -19,7 +18,7 @@ const NavBar = ({ currentTheme }) => {
       <nav className="navbar fixed-top navbar-expand-lg navbar-scroll">
         <div className="container-fluid">
           <div className="logo">
-            <a href="index.html">
+            <Link to="/">
               <img
                 src="assets/img/logo-dark.png"
                 alt=""
@@ -30,7 +29,7 @@ const NavBar = ({ currentTheme }) => {
                 alt=""
                 className="logo-white"
               />
-            </a>
+            </Link>
           </div>
 
           <div className="navbar-right ml-auto">
@@ -40,30 +39,9 @@ const NavBar = ({ currentTheme }) => {
                 <div className="slider round"></div>
               </label>
             </div>
-            <div className="small-screen social-icones">
-              <ul className="list-inline">
-                <li>
-                  <a href="#">
-                    <i className="fab fa-facebook-f"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-instagram"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-twitter"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-youtube"></i>
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <Link className="small-screen btn-custom mr-3" to="/login">
+              Signup / login
+            </Link>
 
             <div className="small-screen search-icon">
               <i className="fas fa-search"></i>
@@ -124,31 +102,9 @@ const NavBar = ({ currentTheme }) => {
               <div className="slider round"></div>
             </label>
           </div>
-          <div className="big-screen social-icones">
-            <ul className="list-inline">
-              <li>
-                <a href="#">
-                  <i className="fab fa-facebook-f"></i>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i className="fab fa-instagram"></i>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i className="fab fa-twitter"></i>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i className="fab fa-youtube"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-
+          <Link className=" big-screen  btn-custom mr-3" to="/login">
+            Signup / login
+          </Link>
           <div className="big-screen search-icon">
             <i className="fas fa-search"></i>
           </div>

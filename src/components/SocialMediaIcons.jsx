@@ -4,27 +4,27 @@ const SocialMediaIcons = () => {
     <div className="social-media">
       <ul className="list-inline">
         <li>
-          <a href="#" className="color-facebook">
+          <a href="https://google.com" className="color-facebook">
             <i className="fab fa-facebook"></i>
           </a>
         </li>
         <li>
-          <a href="#" className="color-instagram">
+          <a href="https://google.com" className="color-instagram">
             <i className="fab fa-instagram"></i>
           </a>
         </li>
         <li>
-          <a href="#" className="color-twitter">
+          <a href="https://google.com" className="color-twitter">
             <i className="fab fa-twitter"></i>
           </a>
         </li>
         <li>
-          <a href="#" className="color-youtube">
+          <a href="https://google.com" className="color-youtube">
             <i className="fab fa-youtube"></i>
           </a>
         </li>
         <li>
-          <a href="#" className="color-pinterest">
+          <a href="https://google.com" className="color-pinterest">
             <i className="fab fa-pinterest"></i>
           </a>
         </li>

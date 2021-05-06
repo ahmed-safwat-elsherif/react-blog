@@ -10,7 +10,7 @@ const Contacts = () => {
               Sign up for free and be the first to get notified about new posts.
             </p>
           </div>
-          <form action="#" className="newslettre-form">
+          <form className="newslettre-form">
             <div className="form-flex">
               <div className="form-group">
                 <input
@@ -28,25 +28,25 @@ const Contacts = () => {
           <div className="social-icones">
             <ul className="list-inline justify-content-center">
               <li>
-                <a href="#">
+                <a href="https://google.com" target="_blank">
                   {" "}
                   <i className="fab fa-facebook-f"></i>Facebook
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href="https://google.com" target="_blank">
                   {" "}
                   <i className="fab fa-twitter"></i>Twitter{" "}
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href="https://google.com" target="_blank">
                   {" "}
                   <i className="fab fa-instagram"></i>Instagram{" "}
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href="https://google.com" target="_blank">
                   {" "}
                   <i className="fab fa-youtube"></i>Youtube
                 </a>

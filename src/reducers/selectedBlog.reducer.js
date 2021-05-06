@@ -16,11 +16,12 @@ export const selectedBlogReducer = (
       };
     }
     case ActionTypes.GET_BLOG: {
+      console.log(action.payload);
       return {
         ...state,
         isLoading: false,
         errMsg: null,
-        blog: action.payload.blog,
+        blog: action.payload,
       };
     }
     default: {

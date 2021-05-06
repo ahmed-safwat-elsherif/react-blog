@@ -28,12 +28,12 @@ const BlogCard = ({ blog }) => {
       <div className="post-card__info">
         <ul className="list-flex">
           <li className="list-flex__item avatar">
-            <a href="#">
+            <a href={`/profile/${blog.userId._id}`}>
               <img src="assets/img/avatar.png" alt="avatar" className="image" />
             </a>
           </li>
           <li className="list-flex__item user-name">
-            <a href="#">
+            <a href={`/profile/${blog.userId._id}`}>
               {blog.userId.firstname} {blog.userId.lastname}
             </a>
           </li>

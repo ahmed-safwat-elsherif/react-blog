@@ -1,6 +1,6 @@
 import React from "react";
 import SocialMediaIcons from "./SocialMediaIcons";
-const BlogPost = () => {
+const BlogPost = ({ blog }) => {
   return (
     <div class="post post-single">
       <div class="post-single__image">
@@ -19,11 +19,7 @@ const BlogPost = () => {
         <ul class="list-flex">
           <li class="avatar">
             <a href="#">
-              <img
-                src="https://noonpost.netlify.app/html/template/assets/img/author/1.jpg"
-                alt="avatar"
-                class="image"
-              />
+              <img src="assets/img/avatar.png" alt="avatar" class="image" />
             </a>
           </li>
           <li class="list-flex__item user-name">

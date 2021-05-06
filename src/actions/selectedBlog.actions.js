@@ -20,7 +20,7 @@ export const fetchBlogById = (id) => async (dispatch) => {
     dispatch(loadingBlog());
     let response = await blogServer.get(`/blogs/blog/${id}`);
     if (response.data.success) {
-      console.log(response.data);
+      console.log(response);
       dispatch({ type: ActionTypes.GET_BLOG, payload: response.data.blog });
     } else {
       dispatch(errorBlog());

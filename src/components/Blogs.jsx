@@ -22,10 +22,32 @@ const Blogs = (props) => {
     props.fetchBlogs(10, 0);
   }, []);
   if (props.isLoading) {
-    return loadingHandler();
+    return (
+      <div
+        style={{
+          height: "80vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {loadingHandler()}
+      </div>
+    );
   }
   if (props.errMsg) {
-    return errorHangler(props.errMsg);
+    return (
+      <div
+        style={{
+          height: "80vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {errorHangler(props.errMsg)}
+      </div>
+    );
   }
 
   return (

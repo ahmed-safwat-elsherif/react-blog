@@ -7,6 +7,8 @@ import NavBar from "./NavBar";
 import CategoryBlogs from "./CategoryBlogs";
 import Contacts from "./Contacts";
 import Footer from "./Footer";
+import LoginSignup from "./LoginSignup";
+import Page404 from "./Page404";
 
 const App = () => {
   let [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme"));
@@ -56,10 +58,8 @@ const App = () => {
         <Route path="/category/:name" component={CategoryBlogs} />
         <Route path="/home" component={Home} />
         <Route path="/blogs" component={Blogs} />
-        <Route
-          path="/not-found"
-          render={() => <h3 className="text-center mt-5">Not found</h3>}
-        />
+        <Route path="/login" component={LoginSignup} />
+        <Route path="/not-found" component={Page404} />
         <Redirect from="/" exact to="/home" />
         <Redirect to="/not-found" />
       </Switch>
