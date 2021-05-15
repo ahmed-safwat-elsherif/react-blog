@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import $ from "jquery";
-import { Link, NavLink } from "react-router-dom";
-const NavBar = ({ currentTheme }) => {
+import { Link, NavLink, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { getProfile } from "./../actions/profile.action";
+import { authLogout } from "./../actions/Auth.actions";
+
+const NavBar = ({ currentTheme, isAuth, user, ...props }) => {
   useEffect(() => {
     let lightSwitcher = $("input[type='checkbox']#checkbox");
     lightSwitcher.prop("checked", currentTheme == "dark" ? true : false);
@@ -12,7 +16,13 @@ const NavBar = ({ currentTheme }) => {
     $(".theme-switch").on("click", () => {
       lightSwitcher.prop("checked", !lightSwitcher.prop("checked"));
     });
+    props.getProfile();
   }, []);
+  const handleLogout = () => {
+    props.authLogout();
+    return <Redirect to="/home" />;
+  };
+  console.log("is Auth", isAuth);
   return (
     <>
       <nav className="navbar fixed-top navbar-expand-lg navbar-scroll">
@@ -39,9 +49,16 @@ const NavBar = ({ currentTheme }) => {
                 <div className="slider round"></div>
               </label>
             </div>
-            <Link className="small-screen btn-custom mr-3" to="/login">
-              Signup / login
-            </Link>
+            {!isAuth && (
+              <Link className="small-screen btn-custom mr-3" to="/login">
+                Signup / login
+              </Link>
+            )}
+            {isAuth && (
+              <Link className="small-screen btn-custom mr-3" to="/login">
+                Sign out
+              </Link>
+            )}
 
             <div className="small-screen search-icon">
               <i className="fas fa-search"></i>
@@ -102,9 +119,19 @@ const NavBar = ({ currentTheme }) => {
               <div className="slider round"></div>
             </label>
           </div>
-          <Link className=" big-screen  btn-custom mr-3" to="/login">
-            Signup / login
-          </Link>
+          {!isAuth && (
+            <Link className=" big-screen  btn-custom mr-3" to="/login">
+              Signup / login
+            </Link>
+          )}
+          {isAuth && (
+            <button
+              className=" big-screen  btn-custom mr-3"
+              onClick={handleLogout}
+            >
+              Sign out
+            </button>
+          )}
           <div className="big-screen search-icon">
             <i className="fas fa-search"></i>
           </div>
@@ -113,5 +140,11 @@ const NavBar = ({ currentTheme }) => {
     </>
   );
 };
-
-export default NavBar;
+const mapStateToProps = (state) => {
+  console.log("navbar visited");
+  return {
+    isAuth: state.profile.isAuth,
+    user: state.profile.user,
+  };
+};
+export default connect(mapStateToProps, { getProfile, authLogout })(NavBar);

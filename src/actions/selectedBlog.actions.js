@@ -1,6 +1,6 @@
 import blogServer from "../api/blogServer";
-import * as ActionTypes from "./ActionTypes";
-import * as ErrorMsgs from "./ErrorMsgs";
+import * as ActionTypes from "./helpers/ActionTypes";
+import * as ErrorMsgs from "./helpers/ErrorMsgs";
 
 export const loadingBlog = () => {
   return {

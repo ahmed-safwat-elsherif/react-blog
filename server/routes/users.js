@@ -14,7 +14,7 @@ REGISTER: {
       if (exists > 0) {
         return res
           .status(200)
-          .send({ exists: true, success: false, message: "Email is exists" });
+          .send({ exists: true, success: false, message: "Email is exist" });
       }
       const hashedPass = await bcrypt.hash(password, Number(config.saltRounds));
 
@@ -57,8 +57,50 @@ LOGIN: {
       });
     } catch (error) {
       res
-        .status(400)
+        .status(404)
         .send({ error, message: "Logging in failed", success: false });
+    }
+  });
+}
+
+PROFILE: {
+  router.get("/profile", authenticate, async (req, res) => {
+    try {
+      const user = await User.findOne({ _id: req.signData._id }).populate(
+        "blogs"
+      );
+      console.log(user);
+      res.status(200).send({
+        success: true,
+        user,
+        isAuth: true,
+        message: "User profile is fetched successfully",
+      });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        error,
+        isAuth: false,
+        message: "User profile is not found or not Authorized",
+      });
+    }
+  });
+  router.get("/user/:_id", async (req, res) => {
+    try {
+      const { _id } = req.params;
+      const user = await User.findOne({ _id }).populate("blogs");
+      res.status(200).send({
+        success: true,
+        user,
+        message: "User profile is fetched successfully",
+      });
+    } catch (error) {
+      res.status(400).send({
+        success: false,
+        error,
+        isAuth: false,
+        message: "User profile is not found or not Authorized",
+      });
     }
   });
 }
@@ -68,10 +110,17 @@ DELETE_PATCH: {
     .route("/")
     .patch(authenticate, async (req, res) => {
       try {
+        console.log("noow");
         let updates = req.body;
+        const { password } = await User.findById({ _id: req.signData._id });
+
+        const isPassRight = await bcrypt.compare(updates.password, password);
+
+        if (!isPassRight) throw "credentials is not correct";
+
         delete updates.password;
         const user = await User.findByIdAndUpdate(
-          { _id: req.signData },
+          { _id: req.signData._id },
           { ...updates },
           { new: true }
         ).exec();
@@ -79,7 +128,7 @@ DELETE_PATCH: {
           .status(200)
           .send({ user, success: true, message: "Updated successfully" });
       } catch (error) {
-        res.status(400).send({ success: false, message: "Failed to updated" });
+        res.status(401).send({ success: false, message: "Failed to updated" });
       }
     })
     .delete(authenticate, async (req, res) => {

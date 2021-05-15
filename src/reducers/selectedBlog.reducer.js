@@ -1,4 +1,4 @@
-import * as ActionTypes from "../actions/ActionTypes";
+import * as ActionTypes from "../actions/helpers/ActionTypes";
 export const selectedBlogReducer = (
   state = { isLoading: false, errMsg: null, blog: null },
   action

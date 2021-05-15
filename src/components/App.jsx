@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Blog from "./Blog";
 import Blogs from "./Blogs";
@@ -7,11 +7,13 @@ import NavBar from "./NavBar";
 import CategoryBlogs from "./CategoryBlogs";
 import Contacts from "./Contacts";
 import Footer from "./Footer";
-import LoginSignup from "./LoginSignup";
+import Signup from "./Signup";
 import Page404 from "./Page404";
+import Login from "./Login";
+import Profile from "./profile";
+import NewBlog from "./NewBlog";
 
 const App = () => {
-  let [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme"));
   useEffect(() => {
     const toggleSwitch = document.querySelector(
       '.theme-switch input[type="checkbox"]'
@@ -19,10 +21,13 @@ const App = () => {
     const logoDark = document.querySelector(".logo-dark");
     const logoWhite = document.querySelector(".logo-white");
 
-    if (currentTheme) {
-      document.documentElement.setAttribute("data-theme", currentTheme);
+    if (localStorage.getItem("theme")) {
+      document.documentElement.setAttribute(
+        "data-theme",
+        localStorage.getItem("theme")
+      );
 
-      if (currentTheme === "dark") {
+      if (localStorage.getItem("theme") === "dark") {
         toggleSwitch.checked = true;
         document.body.classList.toggle("dark");
         logoDark.classList.add("display-none");
@@ -51,18 +56,23 @@ const App = () => {
   return (
     <>
       <header>
-        <NavBar currentTheme={currentTheme} />
+        <NavBar currentTheme={localStorage.getItem("theme")} />
       </header>
-      <Switch>
-        <Route path="/blogs/:id" component={Blog} />
-        <Route path="/category/:name" component={CategoryBlogs} />
-        <Route path="/home" component={Home} />
-        <Route path="/blogs" component={Blogs} />
-        <Route path="/login" component={LoginSignup} />
-        <Route path="/not-found" component={Page404} />
-        <Redirect from="/" exact to="/home" />
-        <Redirect to="/not-found" />
-      </Switch>
+      <div className="body main mx-auto">
+        <Switch>
+          <Route path="/blogs/:id" component={Blog} />
+          <Route path="/category/:name" component={CategoryBlogs} />
+          <Route path="/home" component={Home} />
+          <Route path="/blogs" component={Blogs} />
+          <Route path="/blog/new" component={NewBlog} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/profile/:id" component={Profile} />
+          <Route path="/not-found" component={Page404} />
+          <Redirect from="/" exact to="/home" />
+          <Redirect to="/not-found" />
+        </Switch>
+      </div>
       <Contacts />
       <Footer />
     </>

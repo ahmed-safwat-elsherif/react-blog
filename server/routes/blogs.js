@@ -2,6 +2,7 @@ const express = require("express");
 const { authenticate } = require("../auth/user.auth");
 const { deleteOne, findOneAndUpdate } = require("../models/blogModel");
 const Blog = require("../models/blogModel");
+const User = require("../models/userModel");
 const { route } = require("./users");
 const router = express.Router();
 
@@ -105,6 +106,10 @@ POST_NEW_BLOG: {
         likes: [],
         comments: [],
       });
+      await User.findByIdAndUpdate(
+        { _id: userId },
+        { $push: { blogs: blog._id } }
+      );
       res
         .status(200)
         .send({ success: true, message: "blog posted successfully", blog });
@@ -167,6 +172,10 @@ DELETE_BLOG: {
     try {
       let { _id } = req.params;
       await Blog.deleteOne({ _id });
+      await User.findByIdAndUpdate(
+        { _id: req.signData._id },
+        { $pullAll: { blogs: [_id] } }
+      );
       res.status(200).send({ success: true, message: "Deleted successfully" });
     } catch (error) {
       res

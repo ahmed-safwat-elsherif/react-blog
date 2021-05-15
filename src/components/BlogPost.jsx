@@ -6,7 +6,7 @@ const BlogPost = ({ blog }) => {
       <div class="post-single__image">
         <img
           src="https://noonpost.netlify.app/html/template/assets/img/blog/6.jpg"
-          alt="post image"
+          alt="blog-image"
         />
       </div>
       <div class="post-single__categorie">
@@ -18,12 +18,12 @@ const BlogPost = ({ blog }) => {
         </h4>
         <ul class="list-flex">
           <li class="avatar">
-            <a href="#">
+            <a href="/">
               <img src="assets/img/avatar.png" alt="avatar" class="image" />
             </a>
           </li>
           <li class="list-flex__item user-name">
-            <a href="#"> David Smith </a>
+            <a href="/"> David Smith </a>
           </li>
           <li class="dot"></li>
           <li class="list-flex__item">January 15, 2021</li>
@@ -58,7 +58,7 @@ const BlogPost = ({ blog }) => {
             <div class="image">
               <img
                 src="https://noonpost.netlify.app/html/template/assets/img/blog/2.jpg"
-                alt="image"
+                alt="blog-image"
               />
               <p>Caption can be used to add info</p>
             </div>
@@ -120,7 +120,7 @@ const BlogPost = ({ blog }) => {
             <div class="image">
               <img
                 src="https://noonpost.netlify.app/html/template/assets/img/blog/21.jpg"
-                alt="image"
+                alt="blog-image"
               />
               <p>Caption can be used to add info</p>
             </div>
@@ -129,7 +129,7 @@ const BlogPost = ({ blog }) => {
             <div class="image">
               <img
                 src="https://noonpost.netlify.app/html/template/assets/img/blog/20.jpg"
-                alt="image"
+                alt="blog-image"
               />
               <p>Caption can be used to add info</p>
             </div>

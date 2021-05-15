@@ -20,6 +20,9 @@ const userSchema = mongoose.Schema({
     minLength: 3,
     maxLength: 20,
   },
+  imageUrl: {
+    type: String,
+  },
   blogs: [{ type: Schema.Types.ObjectId, ref: "Blog" }],
 });
 const User = mongoose.model("User", userSchema);

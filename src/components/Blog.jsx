@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import Comments from "./Comments";
 import { fetchBlogById } from "./../actions/selectedBlog.actions";
