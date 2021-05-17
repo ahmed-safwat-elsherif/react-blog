@@ -25,7 +25,7 @@ export const validate = ({
     errors.password =
       "Password is very short, it must be more than 8 characters";
   }
-  if (password != confirmPassword && !validator.isEmpty(password)) {
+  if (password !== confirmPassword && !validator.isEmpty(password)) {
     errors.confirmPassword =
       "Confirm your password correctly, passwords don't match";
   }

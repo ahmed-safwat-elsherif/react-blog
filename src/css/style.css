@@ -188,12 +188,12 @@ body h5 a:hover {
 .flex-container {
   display: flex;
   flex-wrap: nowrap;
-  gap: 10%;
+  gap: 5%;
 }
 
 .flex-child,
 .flex-child-1 {
-  flex: 1 1 10%;
+  flex: 1 1 33%;
 }
 
 .flex-child-2 {
@@ -582,7 +582,7 @@ input:checked + .slider:before {
 .search-icon {
   width: 2.1875rem;
   height: 2.1875rem;
-  border-radius: 50%;
+  border-radius: 30px;
   background-color: #4b778d;
   text-align: center;
   display: block;
@@ -591,7 +591,7 @@ input:checked + .slider:before {
   transition: all 0.5s ease-in-out;
 }
 
-.search-icon i {
+/* .search-icon i {
   line-height: 2.1875rem;
   color: #ffffff;
   font-size: 0.8125rem;
@@ -599,11 +599,11 @@ input:checked + .slider:before {
   display: block;
   -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
-}
+} */
 
-.search-icon:hover {
+/* .search-icon:hover {
   background-color: #4b778d;
-}
+} */
 
 .social-icones li a {
   display: block;
@@ -1139,8 +1139,8 @@ input:checked + .slider:before {
   margin-bottom: 0.625rem;
 }
 .widget-comments .comment-item img {
-  width: 5rem;
-  height: 5rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   margin-right: 15px;
 }

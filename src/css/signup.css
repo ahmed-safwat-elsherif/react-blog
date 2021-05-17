@@ -1,0 +1,16 @@
+.sign-title {
+  position: relative;
+  margin-bottom: 30px;
+  /* display: inline-block; */
+}
+.sign-title::after {
+  background-color: #4b778d;
+
+  display: block;
+  position: absolute;
+  content: "";
+  left: auto;
+  top: -5px;
+  width: 30px;
+  height: 2px;
+}

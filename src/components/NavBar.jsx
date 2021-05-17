@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import $ from "jquery";
-import { Link, NavLink, Redirect } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { getProfile } from "./../actions/profile.action";
 import { authLogout } from "./../actions/Auth.actions";
+import ProfileIcon from "./profileIcon";
 
-const NavBar = ({ currentTheme, isAuth, user, ...props }) => {
+const NavBar = ({ currentTheme, isLoggedIn, profile, ...props }) => {
+  let history = useHistory();
   useEffect(() => {
     let lightSwitcher = $("input[type='checkbox']#checkbox");
-    lightSwitcher.prop("checked", currentTheme == "dark" ? true : false);
+    lightSwitcher.prop("checked", currentTheme === "dark" ? true : false);
     $(".navbar-toggler").on("click", function () {
       $(".navbar-collapse").toggle("show");
     });
@@ -19,10 +21,10 @@ const NavBar = ({ currentTheme, isAuth, user, ...props }) => {
     props.getProfile();
   }, []);
   const handleLogout = () => {
+    history.push("/login");
     props.authLogout();
-    return <Redirect to="/home" />;
+    return;
   };
-  console.log("is Auth", isAuth);
   return (
     <>
       <nav className="navbar fixed-top navbar-expand-lg navbar-scroll">
@@ -49,20 +51,25 @@ const NavBar = ({ currentTheme, isAuth, user, ...props }) => {
                 <div className="slider round"></div>
               </label>
             </div>
-            {!isAuth && (
+            {!isLoggedIn && (
               <Link className="small-screen btn-custom mr-3" to="/login">
                 Signup / login
               </Link>
             )}
-            {isAuth && (
-              <Link className="small-screen btn-custom mr-3" to="/login">
+            {isLoggedIn && (
+              <button
+                className="small-screen btn-custom mr-3"
+                onClick={handleLogout}
+              >
                 Sign out
-              </Link>
+              </button>
             )}
 
-            <div className="small-screen search-icon">
-              <i className="fas fa-search"></i>
-            </div>
+            {profile && (
+              <div className="small-screen ">
+                <ProfileIcon profile={profile} />
+              </div>
+            )}
             <button
               className="navbar-toggler"
               type="button"
@@ -119,12 +126,12 @@ const NavBar = ({ currentTheme, isAuth, user, ...props }) => {
               <div className="slider round"></div>
             </label>
           </div>
-          {!isAuth && (
+          {!isLoggedIn && (
             <Link className=" big-screen  btn-custom mr-3" to="/login">
               Signup / login
             </Link>
           )}
-          {isAuth && (
+          {isLoggedIn && (
             <button
               className=" big-screen  btn-custom mr-3"
               onClick={handleLogout}
@@ -132,19 +139,21 @@ const NavBar = ({ currentTheme, isAuth, user, ...props }) => {
               Sign out
             </button>
           )}
-          <div className="big-screen search-icon">
-            <i className="fas fa-search"></i>
-          </div>
+          {profile && (
+            <div className="big-screen ">
+              <ProfileIcon profile={profile} />
+            </div>
+          )}
         </div>
       </nav>
     </>
   );
 };
 const mapStateToProps = (state) => {
-  console.log("navbar visited");
+  const { isLoggedIn, profile } = state.profile;
   return {
-    isAuth: state.profile.isAuth,
-    user: state.profile.user,
+    isLoggedIn,
+    profile,
   };
 };
 export default connect(mapStateToProps, { getProfile, authLogout })(NavBar);

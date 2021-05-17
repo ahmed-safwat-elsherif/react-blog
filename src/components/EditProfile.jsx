@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import { updateProfile } from "../actions/profile.action";
 import { Link } from "react-router-dom";
@@ -21,8 +20,6 @@ const EditProfile = ({ profile, errMsg, isLoading, ...props }) => {
   const [newpass, setNewPass] = useState("");
   const [confirmpass, setConfirmPass] = useState("");
 
-  const [submitted, setSubmitted] = useState(false);
-
   const clearPasswords = () => {
     setPassword("");
     setNewPass("");
@@ -30,20 +27,16 @@ const EditProfile = ({ profile, errMsg, isLoading, ...props }) => {
   };
 
   const setInput = (setter) => (event) => setter(event.currentTarget.value);
-  // if (submitted && !errMsg) {
-  //   return <Redirect to={`/profile/${id}`} />;
-  // }
+
   const handleSubmitEdit = (e) => {
-    // setSubmitted(true);
     e.preventDefault();
     if (!password.trim().length) {
       notifyError("Password is required to submit the changes!!");
       clearPasswords();
       return;
     }
-    console.log("updating");
     if (isChangePass) {
-      if (newpass != confirmpass) {
+      if (newpass !== confirmpass) {
         notifyError("confirm password doesn't match the new password");
         clearPasswords();
         return;

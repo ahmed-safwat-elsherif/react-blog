@@ -1,176 +1,89 @@
 import React from "react";
 import SocialMediaIcons from "./SocialMediaIcons";
-const BlogPost = ({ blog }) => {
+import { Link } from "react-router-dom";
+import Category from "./Category";
+import { connect } from "react-redux";
+const BlogPost = ({ blog, profile }) => {
+  const handleDeleteBlog = () => {
+    if (window.confirm("delete blog")) {
+      console.log("deleteIt");
+    }
+  };
   return (
-    <div class="post post-single">
-      <div class="post-single__image">
+    <div className="post post-single">
+      <div className="post-single__image">
         <img
-          src="https://noonpost.netlify.app/html/template/assets/img/blog/6.jpg"
-          alt="blog-image"
+          src={
+            blog.imageUrl ||
+            "https://noonpost.netlify.app/html/template/assets/img/blog/6.jpg"
+          }
+          alt="blog"
         />
       </div>
-      <div class="post-single__categorie">
-        <div class="categorie">Travel</div>
+      <div className="post-single__categorie">
+        {blog.tags.map((tag, i) => {
+          return <Category key={i} name={tag} />;
+        })}
       </div>
-      <div class="post-single__header my-3">
-        <h4 class="post-single__title">
-          What the secrets you will know about jordan petra if visit it one day?
-        </h4>
-        <ul class="list-flex">
-          <li class="avatar">
-            <a href="/">
-              <img src="assets/img/avatar.png" alt="avatar" class="image" />
-            </a>
-          </li>
-          <li class="list-flex__item user-name">
-            <a href="/"> David Smith </a>
-          </li>
-          <li class="dot"></li>
-          <li class="list-flex__item">January 15, 2021</li>
-          <li class="dot"></li>
-          <li class="list-flex__item">January 15, 2021</li>
-        </ul>
-      </div>
-      <div class="post-single__content">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. A vitae
-          numquam sint deserunt sapiente quasi, quia illo, repellendus ipsam
-          maxime libero veniam tenetur magnam! Explicabo natus tenetur ad sint
-          repellat!
-        </p>
-        <h5>1 - Pick a sustainable travel destination</h5>
-        <p>
-          Oh acceptance apartments up sympathize astonished delightful. Waiting
-          him new lasting towards. Continuing melancholy especially so to. Me
-          unpleasing impossible in attachment announcing so astonished. What ask
-          leaf may nor upon door. Tended remain my do stairs. Oh smiling amiable
-          am so visited cordial in offices hearted.
-        </p>
-        <p>
-          Oh acceptance apartments up sympathize astonished delightful. Waiting
-          him new lasting towards. Continuing melancholy especially so to. Me
-          unpleasing impossible in attachment announcing so astonished. What ask
-          leaf may nor upon door. Tended remain my do stairs. Oh smiling amiable
-          am so visited cordial in offices hearted.
-        </p>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="image">
-              <img
-                src="https://noonpost.netlify.app/html/template/assets/img/blog/2.jpg"
-                alt="blog-image"
-              />
-              <p>Caption can be used to add info</p>
+      <div className="post-single__header my-3">
+        <h4 className="post-single__title">{blog.title}</h4>
+        {profile?._id === blog.userId._id && (
+          <>
+            <div className="dropdown" style={{ float: "right" }}>
+              <button
+                className="btn btn-outline-info dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i className="fas fa-pencil-alt"></i>
+              </button>
+              <div
+                className="dropdown-menu"
+                aria-labelledby="dropdownMenuButton"
+              >
+                <Link className="dropdown-item" to={`/blog/edit/${blog._id}`}>
+                  Edit blog
+                </Link>
+                <button className="dropdown-item" onClick={handleDeleteBlog}>
+                  Delete this blog
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-        <p>
-          Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-          mollit anim id est laborum.
-        </p>
-        <h5>2 - Research before booking</h5>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident.
-        </p>
-        <div class="quote">
-          <div>
-            <span class="icon-wrapper">
-              <i class="fas fa-quote-right"></i>
-            </span>
-          </div>
-          <p>
-            The man who goes alone can start today; but he who travels with
-            another must wait till that other is ready.
-          </p>
-          <small>Henry David Thoreau.</small>
-        </div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident.
-        </p>
-        <h5>4 - Be respectful of the environment</h5>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
-        <ul class="list">
-          <li>Be respectful of the environment</li>
-          <li>
-            Pick a sustainable travel destination instead of a popular one
+          </>
+        )}
+        <ul className="list-flex">
+          <li className="avatar">
+            <Link to={`/profile/${blog.userId._id}`}>
+              <img
+                src={blog.userId.imageUrl || "/assets/img/avatar.png"}
+                alt="avatar"
+                className="image"
+              />
+            </Link>
           </li>
-          <li>Research before booking</li>
-          <li>Pack light , Easy Sustainable Travel Tip</li>
-          <li>Be respectful of the environment</li>
+          <li className="list-flex__item user-name">
+            <Link to={`/profile/${blog.userId._id}`}>
+              {blog.userId.firstname} {blog.userId.lastname}
+            </Link>
+          </li>
+          <li className="dot"></li>
+          <li className="list-flex__item">
+            {new Date(blog.createdAt).toDateString()}
+          </li>
         </ul>
+      </div>
+      <hr />
+      <div className="post-single__content">{blog.body}</div>
+      <hr />
 
-        <div class="row">
-          <div class="col-md-6 col-sm-12">
-            <div class="image">
-              <img
-                src="https://noonpost.netlify.app/html/template/assets/img/blog/21.jpg"
-                alt="blog-image"
-              />
-              <p>Caption can be used to add info</p>
-            </div>
-          </div>
-          <div class="col-md-6 col-sm-12">
-            <div class="image">
-              <img
-                src="https://noonpost.netlify.app/html/template/assets/img/blog/20.jpg"
-                alt="blog-image"
-              />
-              <p>Caption can be used to add info</p>
-            </div>
-          </div>
-        </div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident.
-        </p>
-        <h5>4 - Be respectful of the environment</h5>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
-        <ul class="list">
-          <li>Be respectful of the environment</li>
-          <li>
-            Pick a sustainable travel destination instead of a popular one
-          </li>
-          <li>Research before booking</li>
-          <li>Pack light , Easy Sustainable Travel Tip</li>
-          <li>Be respectful of the environment</li>
-        </ul>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur.
-        </p>
-      </div>
-      <div class="post-single__footer">
-        <div class="tags-container">
-          <div class="categorie">Travel</div>
-          <div class="categorie">Nature</div>
-          <div class="categorie">Tips</div>
+      <div className="post-single__footer">
+        <div className="tags-container">
+          {blog.tags.map((tag, i) => {
+            return <Category key={i} name={tag} />;
+          })}
         </div>
         <SocialMediaIcons />
       </div>
@@ -178,4 +91,12 @@ const BlogPost = ({ blog }) => {
   );
 };
 
-export default BlogPost;
+const mapStateToProps = (state) => {
+  const { profile } = state.profile;
+
+  return {
+    profile,
+  };
+};
+
+export default connect(mapStateToProps)(BlogPost);

@@ -12,6 +12,7 @@ import Page404 from "./Page404";
 import Login from "./Login";
 import Profile from "./profile";
 import NewBlog from "./NewBlog";
+import EditBlog from "./EditBlog";
 
 const App = () => {
   useEffect(() => {
@@ -58,15 +59,16 @@ const App = () => {
       <header>
         <NavBar currentTheme={localStorage.getItem("theme")} />
       </header>
-      <div className="body main mx-auto">
+      <div className="body main mx-0 w-100">
         <Switch>
-          <Route path="/blogs/:id" component={Blog} />
           <Route path="/category/:name" component={CategoryBlogs} />
-          <Route path="/home" component={Home} />
-          <Route path="/blogs" component={Blogs} />
+          <Route path="/blogs/blog/:id" component={Blog} />
           <Route path="/blog/new" component={NewBlog} />
+          <Route path="/blog/edit/:id" component={EditBlog} />
+          <Route path="/blogs" component={Blogs} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <Route path="/home" component={Home} />
           <Route path="/profile/:id" component={Profile} />
           <Route path="/not-found" component={Page404} />
           <Redirect from="/" exact to="/home" />

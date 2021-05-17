@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -7,30 +7,37 @@ import { auth } from "./../actions/Auth.actions";
 
 const notifyError = (errMsg) => toast.error(errMsg);
 
-const Login = ({ onAuth, isAuthenticated, dispatch, ...props }) => {
+const Login = ({
+  isLoading,
+  onAuth,
+  isLoggedIn,
+  dispatch,
+  isAuthenticated,
+  ...props
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   useEffect(() => {}, []);
-  let regBtn = useRef();
+
   const setInput = (setter) => (event) => setter(event.currentTarget.value);
 
   const registerUser = async () => {
-    console.log("Submitted");
     if (email.trim().length && password.trim().length) {
       await props.auth({ email, password }, false);
     } else {
       notifyError("Email and password are required");
     }
   };
-  if (isAuthenticated) {
-    return <Redirect to={`/profile/${props.user._id}`} />;
+  if (isLoggedIn) {
+    return <Redirect to={`/profile/${props.profile._id}`} />;
   }
   return (
     <>
       <div
         style={{ overflow: "hidden", marginTop: "10rem", width: "20rem" }}
-        className="widget newslettre-form  mx-auto text-center register d-flex flex-nowrap"
+        className="widget newslettre-form  mx-auto text-center register edit-form "
       >
+        <h4 className="text-left sign-title">Login</h4>
         <div id="RegForm" style={{ width: "100%" }}>
           {props.errMsg && <div className="text-danger">{props.errMsg}</div>}
           <div className="form-flex mb-2">
@@ -57,11 +64,23 @@ const Login = ({ onAuth, isAuthenticated, dispatch, ...props }) => {
               />
             </div>
           </div>
-          <button ref={regBtn} onClick={registerUser} className="btn-custom">
-            Register
+          <button
+            onClick={registerUser}
+            disabled={isLoading}
+            className="btn-custom"
+          >
+            {isLoading ? (
+              <div className="d-flex justify-content-center">
+                <div className="spinner-border spinner-border-sm" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              </div>
+            ) : (
+              "Login"
+            )}
           </button>
           <hr />
-          <Link to="/signup">I don't have account</Link>
+          {!isAuthenticated && <Link to="/signup">I don't have account</Link>}
         </div>
       </div>
       <ToastContainer />
@@ -70,15 +89,15 @@ const Login = ({ onAuth, isAuthenticated, dispatch, ...props }) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
-  const { isAuthenticated, errMsg, token, user, isLoading } = state.auth;
-
+  const { isLoading, errMsg, token } = state.auth;
+  const { profile } = state.profile;
+  const { isLoggedIn } = state.profile;
   return {
     errMsg,
-    token,
-    user,
     isLoading,
-    isAuthenticated,
+    token,
+    profile,
+    isLoggedIn,
   };
 };
 

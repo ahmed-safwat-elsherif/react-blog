@@ -16,6 +16,9 @@ const blogSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    imageUrl: {
+      type: String,
+    },
     likes: [{ userId: { type: Schema.Types.ObjectId, ref: "User" } }],
     comments: [
       {

@@ -1,41 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Redirect, useHistory } from "react-router";
+import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import { addBlog } from "../actions/blogs.actions";
-
+import { updateBlog } from "./../actions/selectedBlog.actions";
+import { fetchBlogById } from "./../actions/selectedBlog.actions";
 const notifyError = (errMsg) => toast.error(errMsg);
 
-const NewBlog = ({ isLoading, errMsg, newblog, profile, ...props }) => {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-  const [tags, setTags] = useState([]);
-  let history = useHistory();
+const EditBlog = ({
+  blog,
+  errMsg,
+  isUpdated,
+  isLoading,
+  isUpdatingBlog,
+  isBlogUpdated,
+  ...props
+}) => {
+  const [title, setTitle] = useState(blog?.title);
+  const [body, setBody] = useState(blog?.body);
+  const [tags, setTags] = useState(blog?.tags);
+  useEffect(() => {
+    if (!blog) {
+      props.fetchBlogById(props.match.params.id);
+    }
+  }, []);
   const setInput = (setter) => (event) => setter(event.currentTarget.value);
-  const handleAddBlog = async () => {
-    clearInputs();
+  const handleUpdate = async () => {
     if (!title.trim().length || !body.trim().length) {
       notifyError("Blog Title and Body are required!!");
       return;
     }
-    if (!profile) {
-      history.push("/login");
-    }
-    await props.addBlog({ title, body, tags });
-  };
-  const clearInputs = () => {
-    setTitle("");
-    setBody("");
-    setTags([]);
+
+    await props.updateBlog({ title, body, tags });
   };
 
   if (errMsg) {
     notifyError({ errMsg });
   }
-  if (newblog) {
-    return <Redirect to="/blogs" />;
+  if (isBlogUpdated) {
+    return <Redirect to={`/blogs/blog/${props.match.params.id}`} />;
   }
+
   return (
     <>
       <div className="widget new-blog">
@@ -68,11 +73,22 @@ const NewBlog = ({ isLoading, errMsg, newblog, profile, ...props }) => {
           </div>
           <div className="row col-12 my-3 group-btn">
             <button
-              onClick={handleAddBlog}
+              onClick={handleUpdate}
               disabled={isLoading}
               className="btn btn-outline-primary rounded-pill"
             >
-              Add
+              {isUpdatingBlog ? (
+                <div className="d-flex justify-content-center">
+                  <div
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                "Update"
+              )}
             </button>
             <Link
               className="btn btn-outline-secondary rounded-pill"
@@ -88,15 +104,20 @@ const NewBlog = ({ isLoading, errMsg, newblog, profile, ...props }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  const { isLoading, errMsg, newblog } = state.blogs;
-  const { profile } = state.profile;
+const mapStateToProps = (state, props) => {
+  // const blog = state.blogs.find((b) => b._id == props.match.params.id);
+  const { blog, isUpdatingBlog, isBlogUpdated } = state.selectedBlog;
+  const { errMsg, isUpdated, isLoading } = state.blogs;
   return {
-    isLoading,
+    blog,
     errMsg,
-    newblog,
-    profile,
+    isUpdated,
+    isLoading,
+    isUpdatingBlog,
+    isBlogUpdated,
   };
 };
 
-export default connect(mapStateToProps, { addBlog })(NewBlog);
+export default connect(mapStateToProps, { fetchBlogById, updateBlog })(
+  EditBlog
+);

@@ -1,23 +1,25 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { auth } from "../actions/Auth.actions";
 import { validate } from "./validator/validator";
-const Signup = (props) => {
+
+const notifyError = (errMsg) => toast.error(errMsg);
+
+const Signup = ({ errMsg, isAuthenticated, user, isLoading, ...props }) => {
   const [email, setEmail] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  let regBtn = useRef();
   const setInput = (setter) => (event) => setter(event.currentTarget.value);
 
-  const notifyError = () =>
-    toast.error("The entered registration field(s) not valid");
-  const notifySuccess = () => toast.success("Registered successfully");
+  if (errMsg && !user && !isLoading) {
+    notifyError(errMsg);
+  }
+
   const registerUser = () => {
     const errs = validate({
       email,
@@ -26,25 +28,24 @@ const Signup = (props) => {
       password,
       confirmPassword,
     });
-    setErrors(errs);
     if (errs) {
-      notifyError();
+      for (const key in errs) {
+        notifyError(errs[key]);
+      }
       return;
     }
-    console.log(props);
     props.onAuth({ email, firstname, lastname, password }, true);
-    // props.postSignup({ email, firstname, lastname, password });
-    // history.push("/login");
-    // regBtn.current.disabled = true;
-    notifySuccess();
   };
-
+  if (isAuthenticated) {
+    return <Redirect to="/login" />;
+  }
   return (
     <>
       <div
         style={{ overflow: "hidden", marginTop: "10rem", width: "20rem" }}
-        className="widget newslettre-form  mx-auto text-center register d-flex flex-nowrap"
+        className="widget newslettre-form  mx-auto text-center register edit-form "
       >
+        <h4 className="text-left sign-title">Signup</h4>
         <div id="RegForm" style={{ width: "100%" }}>
           <div className="form-flex mb-2">
             <div className="form-group">
@@ -56,7 +57,6 @@ const Signup = (props) => {
                 value={email}
                 onInput={setInput(setEmail)}
               />
-              <span className="d-block text-danger">{errors?.email}</span>
             </div>
           </div>
 
@@ -70,7 +70,6 @@ const Signup = (props) => {
                 value={firstname}
                 onInput={setInput(setFirstname)}
               />
-              <span className="d-block text-danger">{errors?.firstname}</span>
             </div>
           </div>
 
@@ -84,7 +83,6 @@ const Signup = (props) => {
                 value={lastname}
                 onInput={setInput(setLastname)}
               />
-              <span className="d-block text-danger">{errors?.lastname}</span>
             </div>
           </div>
 
@@ -98,7 +96,6 @@ const Signup = (props) => {
                 value={password}
                 onInput={setInput(setPassword)}
               />
-              <span className="d-block text-danger">{errors?.password}</span>
             </div>
           </div>
 
@@ -112,13 +109,14 @@ const Signup = (props) => {
                 value={confirmPassword}
                 onInput={setInput(setConfirmPassword)}
               />
-              <span className="d-block text-danger">
-                {errors?.confirmPassword}
-              </span>
             </div>
           </div>
 
-          <button ref={regBtn} onClick={registerUser} className="btn-custom">
+          <button
+            onClick={registerUser}
+            style={{ width: "100%" }}
+            className="btn-custom"
+          >
             Register
           </button>
           <hr />
@@ -136,15 +134,15 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const mapStateToProps = (state, props) => {
-  console.log(state);
-  const { errMsg, token, user, isLoading } = state.auth;
+const mapStateToProps = (state) => {
+  const { errMsg, token, user, isLoading, isAuthenticated } = state.auth;
 
   return {
     errMsg,
     token,
     user,
     isLoading,
+    isAuthenticated,
   };
 };
 

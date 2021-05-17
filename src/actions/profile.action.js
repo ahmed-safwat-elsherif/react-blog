@@ -18,7 +18,6 @@ export const getProfile = () => async (dispatch) => {
   try {
     dispatch(profileLoading());
     const response = await blogServer.get(`/users/profile`);
-    console.log(response);
     if (response.data.success) {
       dispatch({ type: ActionTypes.GET_PROFILE, payload: response.data });
     } else {
@@ -33,7 +32,6 @@ export const updateProfile = (userdata, isChangePass) => async (dispatch) => {
   try {
     dispatch(profileLoading());
     const response = await blogServer.patch(`/users`, userdata);
-    console.log(response);
     if (response.data.success) {
       if (isChangePass) {
         try {

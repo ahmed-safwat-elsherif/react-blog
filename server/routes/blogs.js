@@ -52,6 +52,7 @@ GET_BLOG_BY_ID: {
         .populate({
           path: "userId",
           select: "-password -blogs",
+          populate: { path: "comments.userId" },
         })
         .populate({ path: "comments.userId", select: "-password -blogs" });
 
@@ -149,7 +150,6 @@ GET_USERS_BLOGS: {
 UPDATE_BLOG: {
   router.patch("/update/blog", authenticate, async (req, res) => {
     try {
-      let { id } = req.params;
       let { _id, userId, ...updates } = req.body;
       let blog = await Blog.findByIdAndUpdate(
         { _id },
@@ -222,7 +222,7 @@ COMMENTS: {
     try {
       let { comment, _id } = req.body;
       let blogQuery = await Blog.findOne({ _id });
-      console.log(blogQuery);
+      console.log(blogQuery, _id);
       console.log({
         text: `-----------------------------------------------------------------------------`,
       });
@@ -232,6 +232,11 @@ COMMENTS: {
         comment,
       });
       console.log(blogQuery);
+      blogQuery.populate({
+        path: "userId",
+        select: "-password -blogs",
+        populate: { path: "comments.userId" },
+      });
       let blog = await blogQuery.save();
       console.log(blog);
       res

@@ -7,11 +7,16 @@ import LoadingSpinner from "./UI_Components/Loading_spinner";
 import { Link } from "react-router-dom";
 
 const renderList = (blogs) => {
+  if (blogs.length === 0) {
+    return <div className="text-center">Empty, no blogs today!</div>;
+  }
   return (
     <>
-      {blogs.map((blog) => {
-        return <BlogCard key={blog._id} blog={blog} />;
-      })}
+      <div className="columns mt-5">
+        {blogs.map((blog) => {
+          return <BlogCard key={blog._id} blog={blog} />;
+        })}
+      </div>
     </>
   );
 };
@@ -39,7 +44,7 @@ const Blogs = (props) => {
       </div>
       <h2 className="text-center">Blogs</h2>
       <hr />
-      <div className="columns mt-5">{renderList(props.blogs)}</div>
+      {renderList(props.blogs)}
     </div>
   );
 };

@@ -3,7 +3,7 @@ const INITIAL_STATE = {
   isLoading: true,
   errMsg: null,
   profile: null,
-  isAuth: false,
+  isLoggedIn: false,
 };
 
 export const profileReducer = (state = INITIAL_STATE, action) => {
@@ -14,7 +14,7 @@ export const profileReducer = (state = INITIAL_STATE, action) => {
         isLoading: true,
         errMsg: null,
         profile: null,
-        isAuth: false,
+        isLoggedIn: false,
       };
     case ActionTypes.LOGOUT_AUTH:
       return {
@@ -22,16 +22,16 @@ export const profileReducer = (state = INITIAL_STATE, action) => {
         isLoading: false,
         errMsg: null,
         profile: null,
-        isAuth: false,
+        isLoggedIn: false,
       };
-    case ActionTypes.SUCCESS_AUTH:
+    case ActionTypes.LOGGEDIN_AUTH:
     case ActionTypes.GET_PROFILE:
       return {
         ...state,
         isLoading: false,
         errMsg: null,
         profile: action.payload.user,
-        isAuth: true,
+        isLoggedIn: true,
       };
 
     case ActionTypes.ERROR_PROFILE:
@@ -40,7 +40,7 @@ export const profileReducer = (state = INITIAL_STATE, action) => {
         isLoading: false,
         errMsg: action.payload,
         profile: null,
-        isAuth: false,
+        isLoggedIn: false,
       };
     case ActionTypes.UPDATE_PROFILE:
       return {
@@ -48,7 +48,7 @@ export const profileReducer = (state = INITIAL_STATE, action) => {
         isLoading: false,
         errMsg: false,
         profile: action.payload.user,
-        isAuth: true,
+        isLoggedIn: true,
       };
     case ActionTypes.DELETE_PROFILE:
       return {
@@ -56,7 +56,7 @@ export const profileReducer = (state = INITIAL_STATE, action) => {
         isLoading: false,
         errMsg: false,
         profile: null,
-        isAuth: false,
+        isLoggedIn: false,
         isDeleted: true,
       };
     default: {

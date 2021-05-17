@@ -13,6 +13,13 @@ export const authSuccess = (authData) => {
   };
 };
 
+export const authLoggedIn = (authData) => {
+  return {
+    type: ActionTypes.LOGGEDIN_AUTH,
+    payload: authData,
+  };
+};
+
 export const authFail = (errMsg) => {
   return {
     type: ActionTypes.ERROR_AUTH,
@@ -31,22 +38,21 @@ export const auth = (userData, isSignup) => async (dispatch) => {
     dispatch(authLoading());
     if (isSignup) {
       const response = await blogServer.post("/users/register", userData);
-      console.log(response);
+
       if (response.data.success) {
-        dispatch(authSuccess(response.data));
+        return dispatch(authSuccess(response.data));
+      }
+      if (response.data.exists) {
+        dispatch(authFail(response.data.message));
       } else {
-        if (response.data.exists) {
-          dispatch(authFail("Email is exist"));
-        } else {
-          dispatch(authFail("Registeration failed"));
-        }
+        dispatch(authFail("Registeration failed"));
       }
     } else {
       const response = await blogServer.post("/users/login", userData);
-      //   console.log(response);
+
       if (response.data.success) {
         localStorage.setItem("token", response.data.token);
-        dispatch(authSuccess(response.data));
+        dispatch(authLoggedIn(response.data));
       } else {
         dispatch(authFail("Email or password is incorrect"));
       }

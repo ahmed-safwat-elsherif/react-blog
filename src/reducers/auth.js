@@ -28,7 +28,6 @@ export const authReducer = (state = INITIAL_STATE, action) => {
         errMsg: null,
         isAuthenticated: true,
       };
-
     case ActionTypes.ERROR_AUTH:
       return {
         ...state,

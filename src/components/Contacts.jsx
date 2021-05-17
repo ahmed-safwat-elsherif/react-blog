@@ -28,25 +28,25 @@ const Contacts = () => {
           <div className="social-icones">
             <ul className="list-inline justify-content-center">
               <li>
-                <a href="https://google.com" target="_blank">
+                <a href="https://google.com" rel="noreferrer" target="_blank">
                   {" "}
                   <i className="fab fa-facebook-f"></i>Facebook
                 </a>
               </li>
               <li>
-                <a href="https://google.com" target="_blank">
+                <a href="https://google.com" rel="noreferrer" target="_blank">
                   {" "}
                   <i className="fab fa-twitter"></i>Twitter{" "}
                 </a>
               </li>
               <li>
-                <a href="https://google.com" target="_blank">
+                <a href="https://google.com" rel="noreferrer" target="_blank">
                   {" "}
                   <i className="fab fa-instagram"></i>Instagram{" "}
                 </a>
               </li>
               <li>
-                <a href="https://google.com" target="_blank">
+                <a href="https://google.com" rel="noreferrer" target="_blank">
                   {" "}
                   <i className="fab fa-youtube"></i>Youtube
                 </a>

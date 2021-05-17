@@ -9,9 +9,10 @@ const { authenticate } = require("../auth/user.auth");
 REGISTER: {
   router.post("/register", async (req, res) => {
     try {
-      const { email, password, firstname, lastname } = req.body;
-      let exists = await User.countDocuments({ email });
-      if (exists > 0) {
+      const { email, password, firstname, lastname, imageUrl = "" } = req.body;
+      let exists = await User.findOne({ email });
+      console.log("exists", exists);
+      if (exists) {
         return res
           .status(200)
           .send({ exists: true, success: false, message: "Email is exist" });
@@ -23,6 +24,7 @@ REGISTER: {
         password: hashedPass,
         firstname,
         lastname,
+        imageUrl,
       });
       res.status(200).send({
         user,
@@ -64,11 +66,13 @@ LOGIN: {
 }
 
 PROFILE: {
+  // get profile data
   router.get("/profile", authenticate, async (req, res) => {
     try {
-      const user = await User.findOne({ _id: req.signData._id }).populate(
-        "blogs"
-      );
+      const user = await User.findOne({ _id: req.signData._id }).populate({
+        path: "blogs",
+        populate: { path: "userId" },
+      });
       console.log(user);
       res.status(200).send({
         success: true,
@@ -85,10 +89,14 @@ PROFILE: {
       });
     }
   });
+  // Get any user with id
   router.get("/user/:_id", async (req, res) => {
     try {
       const { _id } = req.params;
-      const user = await User.findOne({ _id }).populate("blogs");
+      const user = await User.findOne({ _id }).populate({
+        path: "blogs",
+        populate: { path: "userId" },
+      });
       res.status(200).send({
         success: true,
         user,

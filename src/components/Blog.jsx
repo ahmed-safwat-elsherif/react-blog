@@ -3,40 +3,49 @@ import { connect } from "react-redux";
 import Comments from "./Comments";
 import { fetchBlogById } from "./../actions/selectedBlog.actions";
 import BlogPost from "./BlogPost";
+import LoadingSpinner from "./UI_Components/Loading_spinner";
+import Author from "./Author";
+import { Link } from "react-router-dom";
 
 const errorHangler = (errMsg) => <div className="text-danger">{errMsg}</div>;
 
-const loadingHandler = () => <div className="text-primary">Loading ..</div>;
+const loadingHandler = () => <LoadingSpinner />;
 
-const Blog = (props) => {
+const Blog = ({ isLoading, errMsg, blog, match, fetchBlogById }) => {
+  let { id } = match.params;
   useEffect(() => {
-    let { id } = props.match.params;
-    props.fetchBlogById(id);
-    console.log(props);
+    fetchBlogById(id);
   }, []);
-  if (props.isLoading) return <div>{loadingHandler()}</div>;
-  if (props.errMsg) return <div>{errorHangler(props.errMsg)}</div>;
+  if (isLoading) return <div>{loadingHandler()}</div>;
+  if (errMsg) return <div>{errorHangler(errMsg)}</div>;
 
   return (
-    <section class="container-fluid main">
-      <div class="flex-container">
-        <div class="flex-child-7">
-          {props.blog && (
-            <>
-              <BlogPost blog={props.blog} />
-              <div class="widget mb-50">
-                <Comments comments={props.blog.comments} />
-              </div>
-            </>
-          )}
-        </div>
-        <div class="flex-child-1 p-y-5"></div>
+    <div className="container-fluid main">
+      <div>
+        <Link to="/blogs" className=" mb-5 d-flex align-items-center">
+          <i className="fas fa-chevron-left"></i>
+          <p className="mb-0 ml-4">Back to blogs </p>
+        </Link>
       </div>
-    </section>
+      <div className="flex-container">
+        {blog && (
+          <>
+            <div className="flex-child-7">
+              <BlogPost blog={blog} />
+              <div className="widget mb-50">
+                <Comments comments={blog.comments} />
+              </div>
+            </div>
+            <div className="flex-child-1 p-y-5">
+              <Author user={blog.userId} />
+            </div>
+          </>
+        )}
+      </div>
+    </div>
   );
 };
 const mapStateToProps = ({ selectedBlog }) => {
-  console.log(selectedBlog);
   return {
     blog: selectedBlog.blog,
     isLoading: selectedBlog.isLoading,

@@ -18,9 +18,14 @@ export const getUser = (id) => async (dispatch) => {
   try {
     dispatch(userLoading());
     const response = await blogServer.get(`/users/user/${id}`);
-    console.log(response);
     if (response.data.success) {
-      dispatch({ type: ActionTypes.GET_USER, payload: response.data.user });
+      if (response.data.user) {
+        return dispatch({
+          type: ActionTypes.GET_USER,
+          payload: response.data.user,
+        });
+      }
+      dispatch(userFail(`Couldn't find user with id : [${id}]`));
     } else {
       dispatch(userFail("Error occured in getting user profile"));
     }
