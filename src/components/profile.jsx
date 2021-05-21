@@ -9,8 +9,17 @@ import ErrorHandler from "./UI_Components/Error_handler";
 import { getUser } from "./../actions/user.actions";
 
 import blogServer from "./../api/blogServer";
+import { getProfile } from "./../actions/profile.action";
 
-const Profile = ({ profile, user, isLoading, errMsg, ...props }) => {
+const Profile = ({
+  profile,
+  user,
+  isLoading,
+  errMsg,
+  dispatch,
+  match,
+  ...props
+}) => {
   let [imageLoad, setImageLoad] = useState(false);
 
   let [image, setImage] = useState("");
@@ -25,21 +34,22 @@ const Profile = ({ profile, user, isLoading, errMsg, ...props }) => {
       .then((res) => {
         setImageLoad(false);
         setImage(URL.createObjectURL(event.target.files[0]));
+        dispatch(getProfile());
       })
       .catch((err) => {});
   };
   useEffect(() => {
-    const id = props.match.params.id;
+    const id = match.params.id;
 
-    props.getUser(id);
-  }, []);
+    dispatch(getUser(id));
+  }, [dispatch, match]);
   if (isLoading) {
     return <LoadingSpinner />;
   }
   if (errMsg) {
     return <ErrorHandler errMsg={errMsg} />;
   }
-  const isAuth = user?._id == profile?._id;
+  const isAuth = user?._id === profile?._id;
   return (
     <>
       <div
@@ -94,8 +104,11 @@ const Profile = ({ profile, user, isLoading, errMsg, ...props }) => {
             </Link>
           )}
         </div>
-
-        <div>blogs: ({user.blogs.length}) blogs</div>
+        {user.blogs.length === 0 ? (
+          ""
+        ) : (
+          <div>blogs: ({user.blogs.length}) blogs</div>
+        )}
       </div>
 
       <Switch>
@@ -134,4 +147,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getUser })(Profile);
+export default connect(mapStateToProps)(Profile);

@@ -10,7 +10,7 @@ const ErrorHandler = ({ errMsg }) => {
         <h3 className="text-danger">{errMsg}</h3>
       </div>
       <hr />
-      <Link to="/home">Back to home</Link>
+      <Link to="/blogs">Back to blog menu</Link>
     </div>
   );
 };

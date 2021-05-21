@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <>
       <div>Home</div>
-      {/* <section
+      <section
         style={{ marginTop: "-100px" }}
         className="section carousel-hero"
       >
@@ -127,7 +127,7 @@ const Home = () => {
       </section>
       <section>
         <h1>Home</h1>
-      </section> */}
+      </section>
     </>
   );
 };

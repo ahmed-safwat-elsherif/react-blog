@@ -4,7 +4,7 @@ const User = require("../models/userModel");
 module.exports.authenticate = async (req, res, next) => {
   try {
     let { authorization } = req.headers;
-    console.log({ authorization });
+    // console.log({ authorization });
     authorization = authorization.split(" ");
     if (authorization.length == 2) {
       authorization = authorization[1];

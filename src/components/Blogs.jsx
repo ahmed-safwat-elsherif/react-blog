@@ -21,10 +21,10 @@ const renderList = (blogs) => {
   );
 };
 
-const Blogs = (props) => {
+const Blogs = ({ fetchBlogs, ...props }) => {
   useEffect(() => {
-    props.fetchBlogs(10, 0);
-  }, []);
+    fetchBlogs(10, 0);
+  }, [fetchBlogs]);
   if (props.isLoading) {
     return <LoadingSpinner />;
   }

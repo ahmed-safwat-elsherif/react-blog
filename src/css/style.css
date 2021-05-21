@@ -1537,3 +1537,21 @@ input:checked + .slider:before {
 .dark ::placeholder {
   color: #d9d9d9 !important;
 }
+
+.profile-icon {
+  overflow: hidden;
+  cursor: pointer;
+  padding-right: 0;
+  border-radius: 20px;
+}
+
+.profile-icon .username {
+  transform: translateX(100px);
+  transition: 0.3s all;
+  z-index: -1;
+}
+
+.profile-icon:hover .username {
+  transform: translateX(0px);
+  z-index: -1;
+}

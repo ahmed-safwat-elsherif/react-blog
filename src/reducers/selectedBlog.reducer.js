@@ -7,6 +7,7 @@ export const selectedBlogReducer = (
     blog: null,
     isUpdatingBlog: false,
     isBlogUpdated: false,
+    isDeleted: false,
   },
   action
 ) => {
@@ -20,6 +21,7 @@ export const selectedBlogReducer = (
         blog: null,
         isUpdatingBlog: false,
         isBlogUpdated: false,
+        isDeleted: false,
       };
     }
     case ActionTypes.LOADING_UPDATE_BLOG: {
@@ -28,9 +30,10 @@ export const selectedBlogReducer = (
         isLoading: false,
         isCommentLoading: false,
         errMsg: null,
-        blog: null,
+        // blog: null,
         isUpdatingBlog: true,
         isBlogUpdated: false,
+        isDeleted: false,
       };
     }
 
@@ -43,16 +46,19 @@ export const selectedBlogReducer = (
         blog: null,
         isUpdatingBlog: false,
         isBlogUpdated: false,
+        isDeleted: false,
       };
     }
     case ActionTypes.COMMENT_LOADING: {
       return {
         ...state,
-        isCommentLoading: true,
         isLoading: false,
-        errMsg: null,
+        isCommentLoading: true,
+        errMsg: action.payload,
+        // blog: null,
         isUpdatingBlog: false,
         isBlogUpdated: false,
+        isDeleted: false,
       };
     }
     case ActionTypes.ADD_COMMENT:
@@ -64,7 +70,32 @@ export const selectedBlogReducer = (
         errMsg: null,
         blog: action.payload,
         isUpdatingBlog: false,
+        isBlogUpdated: false,
+        isDeleted: false,
+      };
+    }
+    case ActionTypes.BLOG_UBDATED: {
+      return {
+        ...state,
+        isCommentLoading: false,
+        isLoading: false,
+        errMsg: null,
+        blog: action.payload,
+        isUpdatingBlog: false,
         isBlogUpdated: true,
+        isDeleted: false,
+      };
+    }
+    case ActionTypes.DELETE_BLOG: {
+      return {
+        ...state,
+        isCommentLoading: false,
+        isLoading: false,
+        errMsg: null,
+        // blog: null,
+        isUpdatingBlog: false,
+        isBlogUpdated: true,
+        isDeleted: true,
       };
     }
     default: {

@@ -3,12 +3,19 @@ import SocialMediaIcons from "./SocialMediaIcons";
 import { Link } from "react-router-dom";
 import Category from "./Category";
 import { connect } from "react-redux";
-const BlogPost = ({ blog, profile }) => {
+import { deleteBlog } from "../actions/selectedBlog.actions";
+import { useHistory } from "react-router";
+const BlogPost = ({ isDeleted, blog, profile, ...props }) => {
+  const history = useHistory();
   const handleDeleteBlog = () => {
-    if (window.confirm("delete blog")) {
+    if (window.confirm("You really want to delete this blog?")) {
       console.log("deleteIt");
+      props.deleteBlog(blog._id);
     }
   };
+  if (!blog) {
+    return history.push("/home");
+  }
   return (
     <div className="post post-single">
       <div className="post-single__image">
@@ -99,4 +106,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(BlogPost);
+export default connect(mapStateToProps, { deleteBlog })(BlogPost);

@@ -43,6 +43,7 @@ const Login = ({
           <div className="form-flex mb-2">
             <div className="form-group">
               <input
+                className="w-100"
                 type="text"
                 placeholder="Email"
                 name="email"
@@ -55,7 +56,7 @@ const Login = ({
           <div className="form-flex mb-2">
             <div className="form-group">
               <input
-                // type="password"
+                className="w-100"
                 placeholder="Password"
                 name="password"
                 id="password"
@@ -64,21 +65,28 @@ const Login = ({
               />
             </div>
           </div>
-          <button
-            onClick={registerUser}
-            disabled={isLoading}
-            className="btn-custom"
-          >
-            {isLoading ? (
-              <div className="d-flex justify-content-center">
-                <div className="spinner-border spinner-border-sm" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
-              </div>
-            ) : (
-              "Login"
-            )}
-          </button>
+          <div className="form-flex mb-2">
+            <div className="form-group">
+              <button
+                onClick={registerUser}
+                disabled={isLoading}
+                className="btn-custom justify-content-center w-100"
+              >
+                {isLoading ? (
+                  <div className="d-flex justify-content-center">
+                    <div
+                      className="spinner-border spinner-border-sm"
+                      role="status"
+                    >
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                ) : (
+                  "Login"
+                )}
+              </button>
+            </div>
+          </div>
           <hr />
           {!isAuthenticated && <Link to="/signup">I don't have account</Link>}
         </div>
@@ -89,13 +97,14 @@ const Login = ({
 };
 
 const mapStateToProps = (state) => {
-  const { isLoading, errMsg, token } = state.auth;
+  const { isLoading, isAuthenticated, errMsg, token } = state.auth;
   const { profile } = state.profile;
   const { isLoggedIn } = state.profile;
   return {
     errMsg,
     isLoading,
     token,
+    isAuthenticated,
     profile,
     isLoggedIn,
   };

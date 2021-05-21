@@ -6,19 +6,38 @@ import BlogPost from "./BlogPost";
 import LoadingSpinner from "./UI_Components/Loading_spinner";
 import Author from "./Author";
 import { Link } from "react-router-dom";
+import ErrorHandler from "./UI_Components/Error_handler";
+import { Redirect } from "react-router";
 
-const errorHangler = (errMsg) => <div className="text-danger">{errMsg}</div>;
-
-const loadingHandler = () => <LoadingSpinner />;
-
-const Blog = ({ isLoading, errMsg, blog, match, fetchBlogById }) => {
+const Blog = ({
+  isLoading,
+  errMsg,
+  newblog,
+  blog,
+  isDeleted,
+  match,
+  fetchBlogById,
+}) => {
   let { id } = match.params;
   useEffect(() => {
     fetchBlogById(id);
-  }, []);
-  if (isLoading) return <div>{loadingHandler()}</div>;
-  if (errMsg) return <div>{errorHangler(errMsg)}</div>;
-
+  }, [fetchBlogById, id]);
+  if (isLoading)
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
+  if (!blog)
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
+  if (errMsg) return <ErrorHandler errMsg={errMsg} />;
+  if (isDeleted && !newblog) {
+    return <Redirect to="/blogs" />;
+  }
   return (
     <div className="container-fluid main">
       <div>
@@ -31,7 +50,7 @@ const Blog = ({ isLoading, errMsg, blog, match, fetchBlogById }) => {
         {blog && (
           <>
             <div className="flex-child-7">
-              <BlogPost blog={blog} />
+              <BlogPost blog={blog} isDeleted={isDeleted} />
               <div className="widget mb-50">
                 <Comments comments={blog.comments} />
               </div>
@@ -45,11 +64,14 @@ const Blog = ({ isLoading, errMsg, blog, match, fetchBlogById }) => {
     </div>
   );
 };
-const mapStateToProps = ({ selectedBlog }) => {
+const mapStateToProps = ({ selectedBlog, blogs }) => {
+  const { newblog } = blogs;
   return {
     blog: selectedBlog.blog,
     isLoading: selectedBlog.isLoading,
     errMsg: selectedBlog.errMsg,
+    isDeleted: selectedBlog.isDeleted,
+    newblog,
   };
 };
 export default connect(mapStateToProps, { fetchBlogById })(Blog);

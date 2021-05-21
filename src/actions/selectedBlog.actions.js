@@ -34,13 +34,13 @@ export const postComment = (comment, _id) => async (dispatch) => {
       comment,
       _id,
     });
+    console.log(response);
     if (response.data.success) {
       return dispatch({
         type: ActionTypes.ADD_COMMENT,
         payload: response.data.blog,
       });
     }
-    dispatch(commentFail("Unable to add comment"));
   } catch (error) {
     dispatch(commentFail("unable to add comment"));
   }
@@ -65,7 +65,21 @@ export const updateBlog = (updates) => async (dispatch) => {
     dispatch({ type: ActionTypes.LOADING_UPDATE_BLOG });
     const response = await blogServer.patch("/blogs/update/blog", updates);
     if (response.data.success) {
-      dispatch({ type: ActionTypes.GET_BLOG, payload: response.data.blog });
+      dispatch({ type: ActionTypes.BLOG_UBDATED, payload: response.data.blog });
+    } else {
+      dispatch(errorBlog());
+    }
+  } catch (error) {
+    dispatch(errorBlog());
+  }
+};
+
+export const deleteBlog = (_id) => async (dispatch) => {
+  try {
+    dispatch({ type: ActionTypes.LOADING_UPDATE_BLOG });
+    const response = await blogServer.delete(`/blogs/delete/blog/${_id}`);
+    if (response.data.success) {
+      dispatch({ type: ActionTypes.DELETE_BLOG });
     } else {
       dispatch(errorBlog());
     }

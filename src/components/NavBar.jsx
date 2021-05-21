@@ -6,7 +6,13 @@ import { getProfile } from "./../actions/profile.action";
 import { authLogout } from "./../actions/Auth.actions";
 import ProfileIcon from "./profileIcon";
 
-const NavBar = ({ currentTheme, isLoggedIn, profile, ...props }) => {
+const NavBar = ({
+  currentTheme,
+  isLoggedIn,
+  profile,
+  getProfile,
+  ...props
+}) => {
   let history = useHistory();
   useEffect(() => {
     let lightSwitcher = $("input[type='checkbox']#checkbox");
@@ -18,11 +24,14 @@ const NavBar = ({ currentTheme, isLoggedIn, profile, ...props }) => {
     $(".theme-switch").on("click", () => {
       lightSwitcher.prop("checked", !lightSwitcher.prop("checked"));
     });
-    props.getProfile();
-  }, []);
+    getProfile();
+  }, [getProfile, currentTheme]);
   const handleLogout = () => {
-    history.push("/login");
-    props.authLogout();
+    let answer = window.confirm("Did you really want to leave?");
+    if (answer) {
+      history.push("/login");
+      props.authLogout();
+    }
     return;
   };
   return (
@@ -140,7 +149,7 @@ const NavBar = ({ currentTheme, isLoggedIn, profile, ...props }) => {
             </button>
           )}
           {profile && (
-            <div className="big-screen ">
+            <div className="big-screen">
               <ProfileIcon profile={profile} />
             </div>
           )}

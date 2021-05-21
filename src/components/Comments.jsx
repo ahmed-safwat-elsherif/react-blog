@@ -17,11 +17,15 @@ const Comments = ({ comments, isCommentLoading, profile, ...props }) => {
   return (
     <div className="widget mb-50">
       <div className="title">
-        <h5>
+        <h5>Leave a Reply</h5>
+        <hr style={{ border: "#4b778d solid 0.03rem", width: "60%" }} />
+      </div>
+      <div className="title">
+        <p>
           {comments.length
             ? `${comments.length} Comment(s)`
-            : "Be the first comment"}
-        </h5>
+            : "Be the first comment !"}
+        </p>
         <hr style={{ border: "#4b778d solid 0.03rem", width: "60%" }} />
       </div>
       <ul className="widget-comments">
@@ -29,10 +33,7 @@ const Comments = ({ comments, isCommentLoading, profile, ...props }) => {
           return <Comment key={cmnt._id} comment={cmnt} />;
         })}
       </ul>
-      <div className="title">
-        <h5>Leave a Reply</h5>
-        <hr style={{ border: "#4b778d solid 0.03rem", width: "60%" }} />
-      </div>
+
       <div className="widget-form" id="main_contact_form">
         <div
           className="alert alert-success contact_msg"
@@ -60,7 +61,7 @@ const Comments = ({ comments, isCommentLoading, profile, ...props }) => {
 
           <div className="col-12">
             <button
-              disabled={isCommentLoading && comment.trim().length === 0}
+              disabled={isCommentLoading && comment.trim().length !== 0}
               onClick={handlePostComment}
               type="submit"
               name="submit"

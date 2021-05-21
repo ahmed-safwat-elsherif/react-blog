@@ -4,6 +4,9 @@ import { Redirect, useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { addBlog } from "../actions/blogs.actions";
+import Category from "./Category";
+
+const allTags = ["Travel", "Nature", "Tourism", "Psycology"];
 
 const notifyError = (errMsg) => toast.error(errMsg);
 
@@ -30,11 +33,19 @@ const NewBlog = ({ isLoading, errMsg, newblog, profile, ...props }) => {
     setTags([]);
   };
 
+  const handleChangeTags = (e) => {
+    let newTag = e.target.value;
+    if (!tags.includes(newTag) && newTag !== "select") {
+      let temp = [...tags];
+      temp.push(newTag);
+      setTags(temp);
+    }
+  };
   if (errMsg) {
     notifyError({ errMsg });
   }
   if (newblog) {
-    return <Redirect to="/blogs" />;
+    return <Redirect to={`/blogs/blog/${newblog._id}`} />;
   }
   return (
     <>
@@ -53,7 +64,7 @@ const NewBlog = ({ isLoading, errMsg, newblog, profile, ...props }) => {
               new-blog-title="new-blog-title"
             />
           </div>
-          <div className="row col-12 align-items-center">
+          <div className="row col-12 mt-3 align-items-center">
             <label className="col-md pl-0" htmlFor="new-blog-title">
               Body:
             </label>
@@ -65,6 +76,36 @@ const NewBlog = ({ isLoading, errMsg, newblog, profile, ...props }) => {
               onChange={setInput(setBody)}
               new-blog-title="new-blog-title"
             />
+          </div>
+          <div className="row col-12 mt-3 align-items-center">
+            <div className="col-md  ">
+              {tags?.length === 0 ? (
+                <p className="text-center">The Blog contains no tags..!</p>
+              ) : (
+                tags?.map((t, i) => {
+                  return <Category key={i} name={t} className="mr-2" />;
+                })
+              )}
+            </div>
+          </div>
+          <div className="row col-12 mt-3 align-items-center">
+            <label className="col-md-2 pl-0" htmlFor="new-blog-tags">
+              Tags:
+            </label>
+            <select
+              className="p-2"
+              onChange={handleChangeTags}
+              id="new-blog-tags"
+            >
+              <option value="select">select..</option>
+              {allTags.map((t, i) => {
+                return (
+                  <option key={i} value={t}>
+                    {t}
+                  </option>
+                );
+              })}
+            </select>
           </div>
           <div className="row col-12 my-3 group-btn">
             <button

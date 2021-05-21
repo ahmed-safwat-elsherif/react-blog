@@ -50,6 +50,7 @@ const Signup = ({ errMsg, isAuthenticated, user, isLoading, ...props }) => {
           <div className="form-flex mb-2">
             <div className="form-group">
               <input
+                className="w-100"
                 type="text"
                 placeholder="Email"
                 name="email"
@@ -63,6 +64,7 @@ const Signup = ({ errMsg, isAuthenticated, user, isLoading, ...props }) => {
           <div className="form-flex mb-2">
             <div className="form-group">
               <input
+                className="w-100"
                 type="text"
                 placeholder="Firstname"
                 name="firstname"
@@ -76,6 +78,7 @@ const Signup = ({ errMsg, isAuthenticated, user, isLoading, ...props }) => {
           <div className="form-flex mb-2">
             <div className="form-group">
               <input
+                className="w-100"
                 type="text"
                 placeholder="Lastname"
                 name="lastname"
@@ -89,6 +92,7 @@ const Signup = ({ errMsg, isAuthenticated, user, isLoading, ...props }) => {
           <div className="form-flex mb-2">
             <div className="form-group">
               <input
+                className="w-100"
                 type="password"
                 placeholder="Password"
                 name="password"
@@ -102,6 +106,7 @@ const Signup = ({ errMsg, isAuthenticated, user, isLoading, ...props }) => {
           <div className="form-flex mb-2">
             <div className="form-group">
               <input
+                className="w-100"
                 type="password"
                 placeholder="Confirm Password"
                 name="password"
@@ -111,15 +116,29 @@ const Signup = ({ errMsg, isAuthenticated, user, isLoading, ...props }) => {
               />
             </div>
           </div>
-
-          <button
-            onClick={registerUser}
-            style={{ width: "100%" }}
-            className="btn-custom"
-          >
-            Register
-          </button>
-          <hr />
+          <div className="form-flex mb-2">
+            <div className="form-group">
+              <button
+                onClick={registerUser}
+                disabled={isLoading}
+                className="btn-custom justify-content-center w-100"
+              >
+                {isLoading ? (
+                  <div className="d-flex justify-content-center">
+                    <div
+                      className="spinner-border spinner-border-sm"
+                      role="status"
+                    >
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                ) : (
+                  "Register"
+                )}
+              </button>
+              <hr />
+            </div>
+          </div>
           <Link to="/login">Already have account?</Link>
         </div>
       </div>
