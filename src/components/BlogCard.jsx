@@ -9,7 +9,7 @@ const BlogCard = ({ blog }) => {
           <div className="post-card__image">
             <Link to={`/blogs/blog/${blog._id}`}>
               <img
-                src="https://noonpost.netlify.app/html/template/assets/img/blog/21.jpg"
+                src={blog?.imageUrl || "/assets/img/image-blog-placeholder.jpg"}
                 alt="blog"
                 className="image"
               />

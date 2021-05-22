@@ -59,11 +59,18 @@ export const fetchBlogById = (id) => async (dispatch) => {
   }
 };
 
-export const updateBlog = (updates) => async (dispatch) => {
+export const updateBlog = (blog) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.LOADING_UPDATE_BLOG });
-    const response = await blogServer.patch("/blogs/update/blog", updates);
+    let { file, ...updates } = blog;
+    let response = await blogServer.patch("/blogs/update/blog", updates);
     if (response.data.success) {
+      if (file) {
+        response = await blogServer.post(
+          `/images/blog/${response.data.blog._id}`,
+          file
+        );
+      }
       dispatch({ type: ActionTypes.BLOG_UBDATED, payload: response.data.blog });
     } else {
       dispatch(errorBlog());

@@ -19,10 +19,7 @@ const BlogPost = ({ isDeleted, blog, profile, ...props }) => {
     <div className="post post-single">
       <div className="post-single__image">
         <img
-          src={
-            blog.imageUrl ||
-            "https://noonpost.netlify.app/html/template/assets/img/blog/6.jpg"
-          }
+          src={blog.imageUrl || "/assets/img/image-blog-placeholder.jpg"}
           alt="blog"
         />
       </div>

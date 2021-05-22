@@ -61,6 +61,7 @@ const Login = ({
             <div className="form-group">
               <input
                 className="w-100"
+                type="password"
                 placeholder="Password"
                 name="password"
                 id="password"

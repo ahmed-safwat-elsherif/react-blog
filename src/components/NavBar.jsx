@@ -43,12 +43,12 @@ const NavBar = ({
           <div className="logo">
             <Link to="/">
               <img
-                src="assets/img/logo-dark.png"
+                src="/assets/img/logo-dark.png"
                 alt=""
                 className="logo-dark"
               />
               <img
-                src="assets/img/logo-white.png"
+                src="/assets/img/logo-white.png"
                 alt=""
                 className="logo-white"
               />

@@ -61,7 +61,7 @@ const Comments = ({ comments, isCommentLoading, profile, ...props }) => {
 
           <div className="col-12">
             <button
-              disabled={isCommentLoading && comment.trim().length !== 0}
+              disabled={isCommentLoading || comment.trim().length === 0}
               onClick={handlePostComment}
               type="submit"
               name="submit"

@@ -11,15 +11,7 @@ import { getUser } from "./../actions/user.actions";
 import blogServer from "./../api/blogServer";
 import { getProfile } from "./../actions/profile.action";
 
-const Profile = ({
-  profile,
-  user,
-  isLoading,
-  errMsg,
-  dispatch,
-  match,
-  ...props
-}) => {
+const Profile = ({ profile, user, isLoading, errMsg, dispatch, match }) => {
   let [imageLoad, setImageLoad] = useState(false);
 
   let [image, setImage] = useState("");

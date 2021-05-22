@@ -32,9 +32,18 @@ export const fetchBlogs =
   };
 export const addBlog = (blog) => async (dispatch) => {
   try {
+    let { file, ...body } = blog;
+    console.log(file);
     dispatch(loadingBlogs());
-    const response = await blogServer.post("/blogs/new", blog);
+    let response = await blogServer.post("/blogs/new", body);
     if (response.data.success) {
+      if (file) {
+        response = await blogServer.post(
+          `/images/blog/${response.data.blog._id}`,
+          file
+        );
+      }
+
       dispatch({
         type: ActionTypes.ADD_BLOG,
         payload: response.data.blog,

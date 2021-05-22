@@ -13,9 +13,8 @@ const EditProfile = ({ profile, errMsg, isLoading, ...props }) => {
   const [firstname, setFirstname] = useState(profile?.firstname);
   const [lastname, setLastname] = useState(profile?.lastname);
   const [isChangePass, seIsChangePass] = useState(false);
-  // submitting the current password is required
+
   const [password, setPassword] = useState("");
-  // for changing passwords
 
   const [newpass, setNewPass] = useState("");
   const [confirmpass, setConfirmPass] = useState("");

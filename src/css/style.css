@@ -760,6 +760,8 @@ input:checked + .slider:before {
   margin-bottom: 0.625rem;
 }
 .post-single__image {
+  display: flex;
+  justify-content: center;
   margin-top: -60px;
   margin-bottom: 30px;
   position: relative;

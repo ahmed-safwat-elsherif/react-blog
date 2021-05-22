@@ -7,7 +7,11 @@ import { updateBlog } from "./../actions/selectedBlog.actions";
 import { fetchBlogById } from "./../actions/selectedBlog.actions";
 import Category from "./Category";
 import LoadingSpinner from "./UI_Components/Loading_spinner";
-
+import {
+  handleDragOut,
+  handleDragOver,
+  handleDrop,
+} from "./util/DragAndDropUtil";
 const allTags = ["Travel", "Nature", "Tourism", "Psycology"];
 
 const notifyError = (errMsg) => toast.error(errMsg);
@@ -24,7 +28,9 @@ const EditBlog = ({
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [tags, setTags] = useState("");
-
+  const [dropOverlay, setDropOverLay] = useState("");
+  let [image, setImage] = useState("");
+  let [imageFile, setImageFile] = useState("");
   const { id } = useParams();
 
   /// get the required blog to edit
@@ -54,8 +60,9 @@ const EditBlog = ({
       notifyError("Blog Title and Body are required!!");
       return;
     }
-
-    await props.updateBlog({ title, body, tags, _id: id });
+    let file = new FormData();
+    file.append("image", imageFile, imageFile.name);
+    await props.updateBlog({ title, body, tags, _id: id, file });
   };
 
   if (errMsg) {
@@ -73,6 +80,35 @@ const EditBlog = ({
       <h3 className="pl-5">Titled "{blog?.title}"</h3>
       <div className="widget new-blog">
         <div className="row m-0">
+          <div className="row col-12  align-items-center">
+            <label
+              htmlFor="blog-image"
+              onDragLeave={(e) => handleDragOut(e, setDropOverLay)}
+              onDragOver={(e) => handleDragOver(e, setDropOverLay)}
+              onDrop={(e) =>
+                handleDrop(e, setDropOverLay, setImageFile, setImage)
+              }
+            >
+              {image || blog ? (
+                <>
+                  <div className="message">Click / Drop photo to change it</div>
+                  <img src={image || blog?.imageUrl} alt="blog-preview" />
+                </>
+              ) : (
+                <div className={`drop-blog-image ${dropOverlay}`}>
+                  <h3>Drop an image here</h3>
+                </div>
+              )}
+              <input
+                type="file"
+                name="image"
+                id="blog-image"
+                onChange={handleDrop}
+                style={{ display: "none" }}
+              />
+            </label>
+          </div>
+
           <div className="row col-12  align-items-center">
             <label className="col-md pl-0" htmlFor="new-blog-title">
               Title:
