@@ -1,7 +1,8 @@
 import axios from "axios";
-// "https://api-blog-mern-app.herokuapp.com/api"
+
 const blogServer = axios.create({
-  baseURL: "http://localhost:3001/api",
+  // baseURL: "http://localhost:3001/api",
+  baseURL: "https://api-blog-mern-app.herokuapp.com/api",
 });
 blogServer.interceptors.request.use(
   (req) => {
