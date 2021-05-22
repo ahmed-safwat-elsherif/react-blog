@@ -9,7 +9,6 @@ const BlogPost = ({ isDeleted, blog, profile, ...props }) => {
   const history = useHistory();
   const handleDeleteBlog = () => {
     if (window.confirm("You really want to delete this blog?")) {
-      console.log("deleteIt");
       props.deleteBlog(blog._id);
     }
   };

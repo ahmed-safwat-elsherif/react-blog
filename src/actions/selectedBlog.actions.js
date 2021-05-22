@@ -34,7 +34,6 @@ export const postComment = (comment, _id) => async (dispatch) => {
       comment,
       _id,
     });
-    console.log(response);
     if (response.data.success) {
       return dispatch({
         type: ActionTypes.ADD_COMMENT,
