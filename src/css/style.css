@@ -1582,3 +1582,7 @@ input:checked + .slider:before {
   background-color: rgb(255, 87, 87);
   color: white;
 }
+
+.load-more-btn {
+  width: 200px;
+}

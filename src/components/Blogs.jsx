@@ -51,7 +51,7 @@ const Blogs = ({ fetchBlogs, isLoadingMoreBlogs, ...props }) => {
         <hr />
         {renderList(props.blogs)}
       </div>
-      <div className="form-group w-25 m-auto my-5">
+      <div className="form-group load-more-btn m-auto my-5">
         <button
           onClick={handleLoadMore}
           disabled={isLoadingMoreBlogs}
