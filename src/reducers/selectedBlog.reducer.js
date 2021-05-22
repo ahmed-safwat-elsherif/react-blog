@@ -36,7 +36,18 @@ export const selectedBlogReducer = (
         isDeleted: false,
       };
     }
-
+    case ActionTypes.DELETE_COMMENT: {
+      return {
+        ...state,
+        isLoading: false,
+        isCommentLoading: false,
+        errMsg: null,
+        blog: action.payload,
+        isUpdatingBlog: false,
+        isBlogUpdated: false,
+        isDeleted: false,
+      };
+    }
     case ActionTypes.ERROR_BLOG: {
       return {
         ...state,

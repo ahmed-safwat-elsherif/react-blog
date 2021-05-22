@@ -239,35 +239,35 @@ COMMENTS: {
         .status(200)
         .send({ success: true, message: "Comment added successfully", blog });
     } catch (error) {
-      console.log(res);
-      console.log(error);
       res
         .status(400)
         .send({ success: false, message: "Failed to add a comment", error });
     }
   });
   router
-    .route("/comments/delete/:_id")
+    .route("/blog/:blogId/comments/delete/:_id")
     .delete(authenticate, async (req, res) => {
       try {
-        let { blogId } = req.body;
-        let { _id } = req.params;
-        let blog = await Blog.findById({ _id: blogId });
-        let newComments = blog.comments.filter((c) => c._id == _id);
-        if (newComments.length == blog.comments.length) {
-          let updatedBlog = await blog.save();
-          return res.status(200).send({
-            success: true,
-            message: "Item doesn't exist or may have been deleted",
-            blog: updatedBlog,
-          });
-        }
-        blog.comments = [...newComments];
-        let updatedBlog = await blog.save();
+        let { _id, blogId } = req.params;
+
+        let blog = await Blog.findByIdAndUpdate(
+          { _id: blogId },
+          {
+            $pull: { comments: { _id } },
+          },
+          { new: true }
+        )
+          .populate({
+            path: "userId",
+            select: "-password -blogs",
+            populate: { path: "comments.userId" },
+          })
+          .populate({ path: "comments.userId", select: "-password -blogs" });
+
         res.status(200).send({
           success: true,
           message: "deleted successfully",
-          blog: updatedBlog,
+          blog,
         });
       } catch (error) {
         res

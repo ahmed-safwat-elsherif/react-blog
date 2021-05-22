@@ -39,7 +39,11 @@ const Login = ({
       >
         <h4 className="text-left sign-title">Login</h4>
         <div id="RegForm" style={{ width: "100%" }}>
-          {props.errMsg && <div className="text-danger">{props.errMsg}</div>}
+          {props.errMsg && (
+            <div className="text-danger">
+              {props.errMsg !== "Email is exist" ? props.errMsg : ""}
+            </div>
+          )}
           <div className="form-flex mb-2">
             <div className="form-group">
               <input

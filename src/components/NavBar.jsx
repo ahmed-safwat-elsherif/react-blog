@@ -18,14 +18,16 @@ const NavBar = ({
     let lightSwitcher = $("input[type='checkbox']#checkbox");
     lightSwitcher.prop("checked", currentTheme === "dark" ? true : false);
     $(".navbar-toggler").on("click", function () {
-      $(".navbar-collapse").toggle("show");
+      // $(".navbar-collapse").toggle("show");
     });
 
     $(".theme-switch").on("click", () => {
       lightSwitcher.prop("checked", !lightSwitcher.prop("checked"));
     });
+  }, [currentTheme]);
+  useEffect(() => {
     getProfile();
-  }, [getProfile, currentTheme]);
+  }, [getProfile]);
   const handleLogout = () => {
     let answer = window.confirm("Did you really want to leave?");
     if (answer) {
@@ -93,31 +95,21 @@ const NavBar = ({
 
           <div className="collapse text-center navbar-collapse" id="main_nav">
             <ul className="navbar-nav ml-auto mr-auto">
-              <li className="nav-item dropdown">
-                <NavLink
-                  className="nav-link dropdown-toggle"
-                  to="/home"
-                  data-toggle="dropdown"
-                >
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/home"></NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/home">
                   Home
                 </NavLink>
               </li>
-
-              <li className="nav-item dropdown">
-                <NavLink
-                  className="nav-link dropdown-toggle"
-                  to="/blogs"
-                  data-toggle="dropdown"
-                >
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/blogs">
                   Blogs
                 </NavLink>
               </li>
-              <li className="nav-item dropdown">
-                <NavLink
-                  className="nav-link dropdown-toggle"
-                  to="/about"
-                  data-toggle="dropdown"
-                >
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/about">
                   About
                 </NavLink>
               </li>

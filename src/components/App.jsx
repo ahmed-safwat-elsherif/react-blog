@@ -61,6 +61,7 @@ const App = () => {
       </header>
       <div className="body main mx-0 w-100">
         <Switch>
+          <Route path="/home" component={Home} />
           <Route path="/category/:name" component={CategoryBlogs} />
           <Route path="/blogs/blog/:id" component={Blog} />
           <Route path="/blog/new" component={NewBlog} />
@@ -68,7 +69,6 @@ const App = () => {
           <Route path="/blogs" component={Blogs} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
-          <Route path="/home" component={Home} />
           <Route path="/profile/:id" component={Profile} />
           <Route path="/not-found" component={Page404} />
           <Redirect from="/" exact to="/home" />

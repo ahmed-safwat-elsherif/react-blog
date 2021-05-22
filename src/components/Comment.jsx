@@ -1,8 +1,22 @@
 import React from "react";
-const Comment = ({ comment }) => {
+import { connect } from "react-redux";
+import { deleteComment } from "./../actions/selectedBlog.actions";
+import { useParams } from "react-router";
+const Comment = ({ comment, deleteComment, ...props }) => {
+  const params = useParams();
+  const handleDeleteComment = (id) => {
+    deleteComment(id, params.id);
+  };
   return (
     <>
-      <h5>X</h5>
+      <span className="comment-options">
+        <span
+          className="delete-comment"
+          onClick={() => handleDeleteComment(comment._id)}
+        >
+          <i className="fas fa-times"></i>
+        </span>
+      </span>
       <li className="comment-item">
         <img
           src={
@@ -19,7 +33,9 @@ const Comment = ({ comment }) => {
               </b>
             </li>
             <li className="dot"></li>
-            <li>{new Date(comment.createdAt).toDateString()}</li>
+            <li style={{ fontSize: "0.74rem", fontStyle: "italic" }}>
+              {new Date(comment.createdAt).toDateString()}
+            </li>
           </ul>
 
           <p>{comment.comment}</p>
@@ -34,4 +50,4 @@ const Comment = ({ comment }) => {
   );
 };
 
-export default Comment;
+export default connect(null, { deleteComment })(Comment);

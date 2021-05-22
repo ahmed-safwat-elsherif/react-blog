@@ -1555,3 +1555,23 @@ input:checked + .slider:before {
   transform: translateX(0px);
   z-index: -1;
 }
+.comment-options {
+  display: flex;
+  justify-content: flex-end;
+}
+.delete-comment {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  cursor: pointer;
+  transition: 0.3s all;
+}
+.delete-comment:hover {
+  border: 1px solid rgb(255, 87, 87);
+  background-color: rgb(255, 87, 87);
+  color: white;
+}

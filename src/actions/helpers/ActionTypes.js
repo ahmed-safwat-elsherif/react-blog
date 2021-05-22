@@ -11,6 +11,7 @@ export const ERROR_BLOG = "ERROR_BLOG";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const COMMENT_LOADING = "COMMENT_LOADING";
 export const COMMENT_ERROR = "COMMENT_ERROR";
+export const DELETE_COMMENT = "DELETE_COMMENT";
 
 export const UPDATE_BLOG = "UPDATE_BLOG";
 export const BLOG_UBDATED = "BLOG_UBDATED";

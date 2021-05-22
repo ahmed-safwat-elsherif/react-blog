@@ -87,3 +87,24 @@ export const deleteBlog = (_id) => async (dispatch) => {
     dispatch(errorBlog());
   }
 };
+
+export const deleteComment = (_id, blogId) => async (dispatch) => {
+  try {
+    const response = await blogServer.delete(
+      `/blogs/blog/${blogId}/comments/delete/${_id}`,
+      {
+        blogId,
+      }
+    );
+    if (response.data.success) {
+      dispatch({
+        type: ActionTypes.DELETE_COMMENT,
+        payload: response.data.blog,
+      });
+    } else {
+      dispatch(errorBlog());
+    }
+  } catch (error) {
+    dispatch(errorBlog());
+  }
+};
