@@ -27,9 +27,11 @@ const NewBlog = ({ isLoading, errMsg, newblog, profile, ...props }) => {
   let history = useHistory();
 
   const handleAddBlog = async () => {
-    let file = new FormData();
-    file.append("image", imageFile, imageFile.name);
-
+    let file;
+    if (imageFile) {
+      file = new FormData();
+      file.append("image", imageFile, imageFile.name);
+    }
     clearInputs();
     if (!title.trim().length || !body.trim().length) {
       notifyError("Blog Title and Body are required!!");
@@ -87,7 +89,9 @@ const NewBlog = ({ isLoading, errMsg, newblog, profile, ...props }) => {
                 type="file"
                 name="image"
                 id="blog-image"
-                onChange={handleDrop}
+                onChange={(e) =>
+                  handleDrop(e, setDropOverLay, setImageFile, setImage)
+                }
                 style={{ display: "none" }}
               />
             </label>

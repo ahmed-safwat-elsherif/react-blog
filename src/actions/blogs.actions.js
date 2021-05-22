@@ -1,6 +1,9 @@
 import blogServer from "../api/blogServer";
+import store from "../reducers";
 import * as ActionTypes from "./helpers/ActionTypes";
 import * as ErrorMsgs from "./helpers/ErrorMsgs";
+// import { createStore } from "redux";
+// import rootReducer from "./../reducers/index";
 
 export const loadingBlogs = () => {
   return {
@@ -19,10 +22,22 @@ export const fetchBlogs =
   (limit = 10, skip = 0) =>
   async (dispatch) => {
     try {
-      dispatch(loadingBlogs());
+      let oldBlogs = [...store.getState().blogs.blogs];
+      if (skip === 0) {
+        dispatch(loadingBlogs());
+      } else {
+        dispatch({ type: ActionTypes.LOADING_MORE_BLOGS });
+      }
+
       let response = await blogServer.get(`/blogs?limit=${limit}&skip=${skip}`);
       if (response.data.success) {
-        dispatch({ type: ActionTypes.GET_BLOGS, payload: response.data });
+        let newBlogs = [...response.data.blogs];
+        if (skip === 0) oldBlogs = [];
+
+        dispatch({
+          type: ActionTypes.GET_BLOGS,
+          payload: [...oldBlogs, ...newBlogs],
+        });
       } else {
         dispatch(errorBlogs());
       }
@@ -30,10 +45,11 @@ export const fetchBlogs =
       dispatch(errorBlogs());
     }
   };
+
 export const addBlog = (blog) => async (dispatch) => {
   try {
     let { file, ...body } = blog;
-    console.log(file);
+
     dispatch(loadingBlogs());
     let response = await blogServer.post("/blogs/new", body);
     if (response.data.success) {

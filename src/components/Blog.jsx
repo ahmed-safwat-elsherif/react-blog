@@ -41,7 +41,14 @@ const Blog = ({
   return (
     <div className="container-fluid main">
       <div>
-        <Link to="/blogs" className=" mb-5 d-flex align-items-center">
+        <Link
+          to="/blogs"
+          style={{
+            width: "150px",
+            height: "30px",
+          }}
+          className=" link mb-5 d-flex align-items-center"
+        >
           <i className="fas fa-chevron-left"></i>
           <p className="mb-0 ml-4">Back to blogs </p>
         </Link>

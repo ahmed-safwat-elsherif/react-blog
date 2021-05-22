@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { fetchBlogs } from "../actions/blogs.actions";
 import BlogCard from "./BlogCard";
@@ -21,7 +21,8 @@ const renderList = (blogs) => {
   );
 };
 
-const Blogs = ({ fetchBlogs, ...props }) => {
+const Blogs = ({ fetchBlogs, isLoadingMoreBlogs, ...props }) => {
+  const [skip, setSkip] = useState(0);
   useEffect(() => {
     fetchBlogs(10, 0);
   }, [fetchBlogs]);
@@ -31,27 +32,50 @@ const Blogs = ({ fetchBlogs, ...props }) => {
   if (props.errMsg) {
     return <ErrorHandler errMsg={props.errMsg} />;
   }
-
+  const handleLoadMore = () => {
+    setSkip(skip + 10);
+    fetchBlogs(10, skip);
+  };
   return (
-    <div className="container-fluid">
-      <div style={{ position: "relative", height: "10px" }}>
-        <Link
-          className="add-blog-btn"
-          to={props.profile ? "/blog/new" : "/login"}
-        >
-          <i className="fas fa-plus"></i>
-        </Link>
+    <>
+      <div className="container-fluid">
+        <div style={{ position: "relative", height: "10px" }}>
+          <Link
+            className="add-blog-btn"
+            to={props.profile ? "/blog/new" : "/login"}
+          >
+            <i className="fas fa-plus"></i>
+          </Link>
+        </div>
+        <h2 className="text-center">Blogs</h2>
+        <hr />
+        {renderList(props.blogs)}
       </div>
-      <h2 className="text-center">Blogs</h2>
-      <hr />
-      {renderList(props.blogs)}
-    </div>
+      <div className="form-group w-25 m-auto my-5">
+        <button
+          onClick={handleLoadMore}
+          disabled={isLoadingMoreBlogs}
+          className="btn-custom justify-content-center w-100"
+        >
+          {isLoadingMoreBlogs ? (
+            <div className="d-flex justify-content-center">
+              <div className="spinner-border spinner-border-sm" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            "Show more"
+          )}
+        </button>
+      </div>
+    </>
   );
 };
 
 const mapStateToProps = ({ blogs, profile }) => {
   return {
     blogs: blogs.blogs,
+    isLoadingMoreBlogs: blogs.isLoadingMoreBlogs,
     isLoading: blogs.isLoading,
     errMsg: blogs.errMsg,
     profile: profile.profile,

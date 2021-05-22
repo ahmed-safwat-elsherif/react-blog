@@ -22,7 +22,12 @@ const BlogCard = ({ blog }) => {
             <h5 className="post-card__title">
               <Link to={`/blogs/blog/${blog._id}`}>{blog.title}</Link>
             </h5>
-            <p className="post-card__description">{blog.body}</p>
+            <p className="post-card__description text-wrap">{blog.body}</p>
+            <p className="text-right text-decoration-underline">
+              <Link className="link" to={`/blogs/blog/${blog._id}`}>
+                Read more
+              </Link>
+            </p>
           </div>
           <div className="post-card__info">
             <ul className="list-flex">

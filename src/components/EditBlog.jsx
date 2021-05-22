@@ -29,8 +29,8 @@ const EditBlog = ({
   const [body, setBody] = useState("");
   const [tags, setTags] = useState("");
   const [dropOverlay, setDropOverLay] = useState("");
-  let [image, setImage] = useState("");
-  let [imageFile, setImageFile] = useState("");
+  let [image, setImage] = useState();
+  let [imageFile, setImageFile] = useState();
   const { id } = useParams();
 
   /// get the required blog to edit
@@ -60,8 +60,11 @@ const EditBlog = ({
       notifyError("Blog Title and Body are required!!");
       return;
     }
-    let file = new FormData();
-    file.append("image", imageFile, imageFile.name);
+    let file;
+    if (imageFile) {
+      file = new FormData();
+      file.append("image", imageFile, imageFile.name);
+    }
     await props.updateBlog({ title, body, tags, _id: id, file });
   };
 
@@ -89,7 +92,7 @@ const EditBlog = ({
                 handleDrop(e, setDropOverLay, setImageFile, setImage)
               }
             >
-              {image || blog ? (
+              {image || blog?.imageUrl ? (
                 <>
                   <div className="message">Click / Drop photo to change it</div>
                   <img src={image || blog?.imageUrl} alt="blog-preview" />
@@ -103,7 +106,9 @@ const EditBlog = ({
                 type="file"
                 name="image"
                 id="blog-image"
-                onChange={handleDrop}
+                onChange={(e) =>
+                  handleDrop(e, setDropOverLay, setImageFile, setImage)
+                }
                 style={{ display: "none" }}
               />
             </label>

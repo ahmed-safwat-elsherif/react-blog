@@ -1,7 +1,7 @@
 import React from "react";
 const Contacts = () => {
   return (
-    <section className="newslettre">
+    <section className="newslettre mt-5">
       <div className="container-fluid">
         <div className="newslettre-width text-center">
           <div className="newslettre-info">

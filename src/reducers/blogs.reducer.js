@@ -1,6 +1,12 @@
 import * as ActionTypes from "../actions/helpers/ActionTypes";
 export const blogsReducer = (
-  state = { isLoading: false, errMsg: null, blogs: [], newblog: null },
+  state = {
+    isLoading: false,
+    errMsg: null,
+    blogs: [],
+    newblog: null,
+    isLoadingMoreBlogs: false,
+  },
   action
 ) => {
   switch (action.type) {
@@ -11,8 +17,19 @@ export const blogsReducer = (
         errMsg: null,
         blogs: [],
         newblog: null,
+        isLoadingMoreBlogs: false,
       };
     }
+    case ActionTypes.LOADING_MORE_BLOGS: {
+      return {
+        ...state,
+        isLoading: false,
+        errMsg: null,
+        newblog: null,
+        isLoadingMoreBlogs: true,
+      };
+    }
+
     case ActionTypes.ERROR_BLOGS: {
       return {
         ...state,
@@ -20,6 +37,7 @@ export const blogsReducer = (
         errMsg: action.payload,
         blogs: [],
         newblog: null,
+        isLoadingMoreBlogs: false,
       };
     }
     case ActionTypes.GET_BLOGS: {
@@ -27,8 +45,9 @@ export const blogsReducer = (
         ...state,
         isLoading: false,
         errMsg: null,
-        blogs: action.payload.blogs,
+        blogs: action.payload,
         newblog: null,
+        isLoadingMoreBlogs: false,
       };
     }
     case ActionTypes.ADD_BLOG: {
@@ -40,6 +59,7 @@ export const blogsReducer = (
         errMsg: null,
         blogs,
         newblog: action.payload,
+        isLoadingMoreBlogs: false,
       };
     }
     default: {

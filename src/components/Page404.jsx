@@ -27,8 +27,8 @@ const Page404 = () => {
 
       <h3>Page Not Found.</h3>
       <p>It looks like nothing was found at this location.</p>
-      <Link to="/" className="btn-custom">
-        Back to home
+      <Link to="/blogs" className="btn-custom">
+        Back to blogs
       </Link>
     </div>
   );

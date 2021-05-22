@@ -16,15 +16,9 @@ import "./css/blog.css";
 
 import App from "./components/App";
 import { BrowserRouter } from "react-router-dom";
-import { applyMiddleware, createStore, compose } from "redux";
-import rootReducer from "./reducers/index";
 import { Provider } from "react-redux";
-import thunk from "redux-thunk";
-const comboseEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(
-  rootReducer,
-  comboseEnhancers(applyMiddleware(thunk))
-);
+import store from "./reducers";
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

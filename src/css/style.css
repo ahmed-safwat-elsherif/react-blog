@@ -755,6 +755,11 @@ input:checked + .slider:before {
 }
 .post-card__description {
   font-family: inherit;
+  text-overflow: ellipsis;
+  white-space: wrap;
+
+  max-height: 1.3em;
+  overflow: hidden;
 }
 .post-card__title {
   margin-bottom: 0.625rem;
